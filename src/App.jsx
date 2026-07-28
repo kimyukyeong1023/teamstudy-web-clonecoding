@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function App() {
   return (
-    <div>1.2.3.</div>
+    <div></div>
   )
 }
