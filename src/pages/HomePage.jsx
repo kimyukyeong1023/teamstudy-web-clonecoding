@@ -1,14 +1,14 @@
 import React from 'react'
-import Header from '../components/Header'
-import MainBanner from '../components/MainBanner'
-import Footer from '../components/Footer'
+import MainBanner from '../components/mainBanner/MainBanner'
+import Header from '../components/header/Header'
+import Footer from '../components/footer/Footer'
 
 export default function HomePage() {
   return (
     <div>
-      <Header/>
-      <MainBanner/>
-      <Footer/>
+       <Header/>
+       <MainBanner/>
+       <Footer/>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import styles from './MainBanner.module.css';
 
 export default function MainBanner() {
   return (
-    <div className={styles.bg} >MainBanner
-    </div>
+    <div >MainBanner</div>
   )
 }
+
