@@ -4,7 +4,7 @@ import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <div>Footer</div>
+    <div>Footer1234</div>
   )
 }
 
