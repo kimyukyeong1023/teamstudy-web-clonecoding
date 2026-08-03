@@ -11,12 +11,18 @@ export default function MainBanner() {
 
       </div>
       <div className={styles.bannerWrap}>
-        <button className={`${styles.bannerMoveBtn} ${styles.bannerBBtn}`}></button>
-        <span className={styles.BannerBNName}>이전차이름</span>
         <img className={styles.bannerImg}
               src="./mainBannerimg/Mainnew NEXO.avif" alt="차이미지" />
-        <span className={styles.BannerBNName}>다음차이름</span>
-        <button className={`${styles.bannerMoveBtn} ${styles.bannerNBtn}`}></button>
+        <div className={styles.bannermove}>    
+          <div className={styles.bannermoveD}>
+            <button className={`${styles.bannerMoveBtn} ${styles.bannerBBtn}`}></button>
+            <span className={styles.BannerBNName}>이전차이름</span>
+          </div> 
+          <div className={styles.bannermoveD}>
+            <span className={styles.BannerBNName}>다음차이름</span>
+            <button className={`${styles.bannerMoveBtn} ${styles.bannerNBtn}`}></button>
+          </div>
+        </div> 
       </div>
       <div className={styles.listbar}>
         <ul className={styles.listBnt}>
