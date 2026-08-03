@@ -13,7 +13,7 @@ export default function Header() {
             <h1 className={styles.logoHeading}>
               <button type="button" className={styles.logoBtn}>
                 <svg
-                  width="42"
+                  width="48"
                   height="22"
                   viewBox="0 0 45 23"
                   className={styles.logoIcon}
@@ -35,7 +35,7 @@ export default function Header() {
               <li><button type="button" className={styles.navBtn}>서비스/멤버십</button></li>
               <li><button type="button" className={styles.navBtn}>디지털/고객지원</button></li>
               <li><button type="button" className={styles.navBtn}>브랜드</button></li>
-              <li><button type="button" className={styles.navBtn}>현대인증중고차</button></li>
+              <li><button type="button" className={styles.navBtn}>Shop</button></li>
             </ul>
           </nav>
         </div>
@@ -53,21 +53,21 @@ export default function Header() {
           <span className={styles.divider}></span>
 
           <button type="button" className={styles.iconBtn} aria-label="로그인">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
           </button>
 
           <button type="button" className={styles.iconBtn} aria-label="검색">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
 
           <button type="button" className={styles.iconBtn} aria-label="전체메뉴">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.8" strokeLinecap="round">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.5" strokeLinecap="round">
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="7" y1="12" x2="21" y2="12" />
               <line x1="3" y1="18" x2="21" y2="18" />
