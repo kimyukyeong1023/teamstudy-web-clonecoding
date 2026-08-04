@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Header.module.css";
 
+// 1. 새로고침 시 무작위로 노출할 메뉴 후보 데이터 정의
+const DYNAMIC_NAV_OPTIONS = ["Shop", "현대인증중고차", "Bluelink Store"];
+const DYNAMIC_UTILL_OPTIONS = [
+  { before: "Hi, ", bold: "EV", after: "" },
+  { before: "사양백과", bold: "", after: "" },
+  { before: "", bold: "Trendy ", after: "Hyundai" },
+  { before: "", bold: "내 차 ", after: "추천받기" },
+];
+
 export default function Header() {
+  // 2. 현재 상태(State) 정의 (기본값 설정)
+  const [navMenu, setNavMenu] = useState(DYNAMIC_NAV_OPTIONS[0]);
+  const [utillMenu, setUtillMenu] = useState(DYNAMIC_UTILL_OPTIONS[0]);
+
+  // 3. 페이지가 새로고침(마운트)될 때마다 랜더링 시점에 무작위로 선택
+  useEffect(() => {
+    const randomNav =
+      DYNAMIC_NAV_OPTIONS[
+        Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
+      ];
+    const randomUtill =
+      DYNAMIC_UTILL_OPTIONS[
+        Math.floor(Math.random() * DYNAMIC_UTILL_OPTIONS.length)
+      ];
+
+    setNavMenu(randomNav);
+    setUtillMenu(randomUtill);
+  }, []);
+
   return (
     <header className={styles.header}>
       {/* 중앙 정렬 및 가로 최대 폭 제한 상자 */}
       <div className={styles.headerInner}>
-        
         {/* 1. [좌측 그룹] 로고 + 메인 네비게이션 */}
         <div className={styles.leftBox}>
           <div className={styles.logoArea}>
@@ -30,20 +57,48 @@ export default function Header() {
 
           <nav className={styles.mainNav}>
             <ul className={styles.navList}>
-              <li><a href="#none" className={styles.navLink}>모델</a></li>
-              <li><button type="button" className={styles.navBtn}>구매/이벤트</button></li>
-              <li><button type="button" className={styles.navBtn}>서비스/멤버십</button></li>
-              <li><button type="button" className={styles.navBtn}>디지털/고객지원</button></li>
-              <li><button type="button" className={styles.navBtn}>브랜드</button></li>
-              <li><button type="button" className={styles.navBtn}>Shop</button></li>
+              <li>
+                <a href="#none" className={styles.navLink}>
+                  모델
+                </a>
+              </li>
+              <li>
+                <button type="button" className={styles.navBtn}>
+                  구매/이벤트
+                </button>
+              </li>
+              <li>
+                <button type="button" className={styles.navBtn}>
+                  서비스/멤버십
+                </button>
+              </li>
+              <li>
+                <button type="button" className={styles.navBtn}>
+                  디지털/고객지원
+                </button>
+              </li>
+              <li>
+                <button type="button" className={styles.navBtn}>
+                  브랜드
+                </button>
+              </li>
+
+              <li>
+                <button type="button" className={styles.navBtn}>
+                  {navMenu}
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
 
         {/* 2. [우측] 유틸리티 영역 */}
         <div className={styles.utillArea}>
+
           <a href="#none" className={styles.evLink}>
-            Hi, <b>EV</b>
+            {utillMenu.before}
+            <b>{utillMenu.bold}</b>
+            {utillMenu.after}
           </a>
 
           <button type="button" className={styles.langBtn}>
@@ -53,28 +108,57 @@ export default function Header() {
           <span className={styles.divider}></span>
 
           <button type="button" className={styles.iconBtn} aria-label="로그인">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1c1c1c"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
           </button>
 
           <button type="button" className={styles.iconBtn} aria-label="검색">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1c1c1c"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
 
-          <button type="button" className={styles.iconBtn} aria-label="전체메뉴">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="1.5" strokeLinecap="round">
+          <button
+            type="button"
+            className={styles.iconBtn}
+            aria-label="전체메뉴"
+          >
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1c1c1c"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            >
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="7" y1="12" x2="21" y2="12" />
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </button>
         </div>
-
       </div>
     </header>
   );
