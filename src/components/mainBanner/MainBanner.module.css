@@ -52,12 +52,19 @@
     margin: 0 auto;
         /* border: 1px solid #ccc; */
     
-    /* transform: translateX(-60vw);
+/* 처음에는 오른쪽 바깥 */
+    transform: translateX(120%);
 
-   transition:
-    transform 1.2s ease-out, */
-
+    /* transform이 바뀔 때 1초 동안 움직임 */
+    transition: transform 2s ease;
+    
 }
+/* 이 클래스가 붙으면 원래 위치로 이동 */
+.bannerImg.show {
+    transform: translateX(0);
+}
+
+
 .bannermove{
     display: flex;
     justify-content: space-between;

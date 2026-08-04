@@ -11,7 +11,7 @@ export default function MainBanner() {
 
       </div>
       <div className={styles.bannerWrap}>
-        <img className={styles.bannerImg}
+        <img className={`${styles.bannerImg} ${styles.show}`}
               src="./mainBannerimg/Mainnew NEXO.avif" alt="차이미지" />
         <div className={styles.bannermove}>    
           <div className={styles.bannermoveD}>
