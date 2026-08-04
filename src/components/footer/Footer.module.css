@@ -1,0 +1,169 @@
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backdrop{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:28px;background:rgba(7,20,35,.68);backdrop-filter:blur(8px);animation:fade .2s ease}.browser{width:min(1180px,100%);height:min(760px,calc(100vh - 56px));overflow:hidden;border-radius:15px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:rise .35s cubic-bezier(.2,.8,.2,1)}
+.chrome{height:58px;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid #dce1e6;background:#f1f3f5}.controls{display:flex;gap:7px;margin-right:4px}.controls i{width:11px;height:11px;border-radius:50%;background:#ff5f57}.controls i:nth-child(2){background:#febc2e}.controls i:nth-child(3){background:#28c840}.back,.close{border:0;background:transparent;color:#34404c;cursor:pointer}.back{font-size:22px}.close{font-size:25px}.address{flex:1;max-width:710px;margin:auto;padding:9px 16px;border:1px solid #dce1e6;border-radius:8px;background:#fff;color:#71808d;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.address span{color:#28a36a;font-size:8px}
+.page{height:calc(100% - 58px);overflow-y:auto}.siteNav{height:72px;display:flex;align-items:center;gap:34px;padding:0 6%;font-size:13px}.siteNav strong{margin-right:auto;color:#002c5f;font-size:23px;letter-spacing:-.08em}.siteNav span{color:#333}.hero{min-height:410px;display:grid;grid-template-columns:1.05fr .95fr;background:#e8eef2}.copy{align-self:center;padding:55px 10%}.copy p{margin:0 0 16px;color:#007fa8;font-size:12px;font-weight:800;letter-spacing:.14em}.copy h2{max-width:510px;margin:0;color:#002c5f;font-size:clamp(35px,5vw,58px);line-height:1.12;letter-spacing:-.055em}.rule{width:45px;height:3px;margin:24px 0;background:#00aad2}.copy>span{display:block;max-width:520px;color:#52606c;line-height:1.75}.copy>button{margin-top:30px;border:0;padding:15px 24px;background:#002c5f;color:#fff;font-weight:700;cursor:pointer}.copy>button b{margin-left:25px}.visual{position:relative;display:grid;place-items:center;overflow:hidden;background:#d7e2e8}.visual:before{content:'';position:absolute;width:330px;height:330px;border-radius:50%;background:rgba(255,255,255,.7)}.visual img{position:relative;z-index:2;width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 18px 16px rgba(0,44,95,.18))}.visual i{position:absolute;width:500px;height:1px;background:rgba(0,44,95,.12);transform:rotate(45deg)}.visual i:last-child{transform:rotate(-45deg)}
+.options{display:grid;grid-template-columns:repeat(3,1fr);padding:0 6%;background:#fff}.options button{min-height:110px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:15px;border:0;border-right:1px solid #e2e6e9;padding:20px;background:#fff;text-align:left;cursor:pointer}.options button:last-child{border-right:0}.options small{color:#00aad2}.options strong{font-size:16px}.options span{font-size:20px;color:#789}@keyframes fade{from{opacity:0}}@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.98)}}
+@media(max-width:700px){.backdrop{padding:0}.browser{height:100vh;border-radius:0}.controls,.siteNav span{display:none}.chrome{gap:8px;padding:0 10px}.address{font-size:11px}.siteNav{height:58px}.hero{grid-template-columns:1fr;min-height:auto}.copy{padding:42px 28px}.copy h2{font-size:38px}.visual{min-height:210px}.visual:before{width:190px;height:190px}.visual img{width:100px;height:100px}.options{grid-template-columns:1fr;padding:0}.options button{min-height:75px;border-right:0;border-bottom:1px solid #e2e6e9}}
+
+.quickMenu {
+  width: min(calc(100% - 32px), 1040px);
+  min-height: 112px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  background: #f5f3f1;
+  border-radius: 8px;
+  box-shadow: 0 12px 35px rgba(0, 44, 95, .08);
+}
+
+.list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(76px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  position: relative;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #1f1f1f;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 5;
+  padding: 7px 10px;
+  border-radius: 4px;
+  background: #111;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 5px);
+  transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 5px solid transparent;
+  border-top-color: #111;
+  transform: translateX(-50%);
+}
+
+.link:hover .tooltip,
+.link:focus-visible .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: #002c5f;
+  transform: translateY(-3px);
+}
+
+.link:focus-visible,
+.arrow:focus-visible {
+  outline: 2px solid #002c5f;
+  outline-offset: 3px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.label {
+  display: block;
+  line-height: 1.25;
+}
+
+.arrow {
+  flex: 0 0 24px;
+  border: 0;
+  padding: 0;
+  color: #1f1f1f;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+@media (max-width: 760px) {
+  .quickMenu {
+    padding: 16px 10px;
+  }
+
+  .list {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .item {
+    flex: 0 0 88px;
+    scroll-snap-align: start;
+  }
+
+  .arrow {
+    display: none;
+  }
+}
