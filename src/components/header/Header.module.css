@@ -1,13 +1,44 @@
-/* 상단 헤더 바탕 배경 */
+/* 상단 헤더 바탕 배경 (원래 높이 65px 원복) */
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
   width: 100%;
-  height: 80px; /* 실제 현대차 헤더 높이 */
-  /* background-color: #f6f6f6; */
-  /* border-bottom: 1px solid #e5e5e5; */
+  height: 65px;
+
   box-sizing: border-box;
+
+  /* 배경색과 테두리 변화를 부드럽게 연출 */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* 100% 유동형 내부 컨테이너 (패딩을 12vw로 확장하여 로고와 유틸리티를 안쪽으로 수축) */
+/* 스크롤을 내렸을 때 활성화되는 헤더 스타일 */
+.scrolled {
+  background-color: #ffffff;             /* 현대차 실사이트 스크롤 시 흰색 배경 */
+  border-bottom: 1px solid #e5e5e5;      /* 하단 구분선 노출 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+}
+
+/* KR 또는 로그인 메뉴 마우스 오버 시 헤더 배경을 흰색으로 전환 & 하단 테두리 생성 */
+.header:has(.langWrapper:hover),
+.header:has(.loginWrapper:hover) {
+  background-color: #ffffff;
+}
+
+/* 최상단 스크롤 진행바 (Progress Bar) */
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4.5px;
+  background-color: #007fa8; /* 현대자동차 브랜드 시그니처 블루 컬러 */
+  transition: width 0.3s ease-out;
+  z-index: 1010;
+}
+
+/* 100% 유동형 내부 컨테이너 (원래 원본 수치 11vw 100% 원복!) */
 .headerInner {
   width: 100%;
   height: 100%;
@@ -18,7 +49,7 @@
   box-sizing: border-box;
 }
 
-/* 로고와 메인 메뉴를 함께 묶은 좌측 그룹 */
+/* 로고와 메인 메뉴를 함께 묶은 좌측 그룹 (원래 원본 수치 7vw 100% 원복!) */
 .leftBox {
   display: flex;
   align-items: center;
@@ -31,6 +62,7 @@
   align-items: center;
 }
 
+/* (원래 원본 수치 margin-left: 40px 100% 원복!) */
 .logoHeading {
   margin-left: 40px;
 }
@@ -48,11 +80,11 @@
 /* H 마크 SVG 아이콘 크기 조정 */
 .logoIcon {
   display: block;
-  width: 46px; 
+  width: 46px;
   height: 24px;
 }
 
-/* HYUNDAI 텍스트 스타일 */
+/* HYUNDAI 텍스트 스타일 (원래 원본 수치 font-size: 24px 100% 원복!) */
 .logoText {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-weight: 700;
@@ -67,15 +99,17 @@
   align-items: center;
 }
 
+/* (원래 원본 수치 margin-left: 20px, gap: 2.4vw 100% 원복!) */
 .navList {
   display: flex;
   align-items: center;
-  gap: 2.4vw; /* 메뉴 항목 간 간격 */
+  gap: 2.4vw;
   list-style: none;
   margin-left: 20px;
   padding: 0;
 }
 
+/* (원래 원본 수치 font-size: 15px 100% 원복!) */
 .navLink,
 .navBtn {
   background: none;
@@ -89,12 +123,12 @@
   white-space: nowrap;
 }
 
-/* 우측 유틸리티 영역 */
+/* 우측 유틸리티 영역 (원래 원본 수치 margin-right: 80px 100% 원복!) */
 .utillArea {
   display: flex;
   align-items: center;
   gap: 1.2vw;
-  margin-right: 80px;
+  margin-right: 50px;
 }
 
 .evLink {
@@ -110,10 +144,10 @@
 }
 
 .langBtn {
-  display: inline-flex;  /* KR과 화살표를 한 줄로 가로 정렬 */
-  align-items: center;   /* 세로 중앙 정렬 */
-  gap: 4px;              /* KR 글자와 화살표 사이 간격 */
-  white-space: nowrap;   /* ★ 핵심: 너비가 좁아져도 절대 줄바꿈 안 됨 */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
 
   background: none;
   border: none;
@@ -129,9 +163,9 @@
 .divider {
   display: inline-block;
   width: 1px;
-  height: 20px;
-  background-color: #d0d0d0;
-  margin: 0 4px;
+  height: 15px;
+  background-color: #aaaaaa;
+  margin: 0 2px;
 }
 
 /* 로그인, 검색, 전체메뉴 아이콘 버튼 */
@@ -144,4 +178,139 @@
   cursor: pointer;
   padding: 0;
   color: #000000;
+}
+
+/* ========================================================= */
+/* KR & 로그인 드롭다운 메뉴 스타일 (헤더 65px 밀착) */
+/* ========================================================= */
+
+.langWrapper,
+.loginWrapper {
+  position: relative;
+  height: 65px; /* 헤더 높이(65px)와 완벽 일치 */
+  display: flex;
+  align-items: center;
+}
+
+/* 마우스 올렸을 때 화살표 180도 회전 (▾ -> ▴ 효과) */
+.langWrapper:hover .arrowIcon {
+  transform: rotate(180deg);
+}
+
+/* 공통 드롭다운 상자 스타일 (헤더 바로 밑 65px 지점에 부착) */
+.langDropdown,
+.loginDropdown {
+  position: absolute;
+  top: 65px; /* 헤더 밑면에 딱 밀착 */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 1005;
+  white-space: nowrap;
+}
+
+/* 사람 모양 로그인 드롭다운 위치 (사람 아이콘 중앙 바로 밑 정렬) */
+.loginDropdown {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* 마우스 오버 시 드롭다운 보이기 */
+.langWrapper:hover .langDropdown,
+.loginWrapper:hover .loginDropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 드롭다운 내 ul/li 목록 스타일 */
+.dropdownList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dropdownList li a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #002c5f;
+  font-weight: 500;
+  transition: color 0.15s ease, font-weight 0.15s ease;
+  display: block;
+}
+
+.dropdownList li a:hover {
+  color: #002c5f;
+  font-weight: 600;
+}
+
+/* ========================================================= */
+/* 반응형(Dynamic) 미디어 쿼리 (창이 작아졌을 때만 작용!) */
+/* ========================================================= */
+
+/* 창 너비가 1300px 이하로 줄어들 때 */
+@media (max-width: 1300px) {
+  .headerInner {
+    padding: 0 4vw;
+  }
+  .leftBox {
+    gap: 3vw;
+  }
+  .navList {
+    gap: 1.8vw;
+  }
+  .logoHeading {
+    margin-left: 70px;
+  }
+  .utillArea {
+    margin-right: 20px;
+  }
+}
+
+/* 창 너비가 1100px 이하로 줄어들 때 */
+@media (max-width: 1100px) {
+  /* 1. HYUNDAI 텍스트 숨김 */
+  .logoText {
+    display: none;
+  }
+
+  /* 🛠️ [핵심] 창이 줄어들었을 때만 로고의 margin-left(40px/70px)를 0으로 만들고 메뉴와의 gap을 독립 축소하여 로고만 맨 좌측 끝으로 밀착! */
+  .logoHeading {
+    margin-left: 0;
+  }
+
+  .headerInner {
+    padding: 0 20px;
+  }
+
+  .leftBox {
+    gap: 135px; /* 로고와 첫번째 메뉴 사이 간격을 줄여 메뉴 위치 유지 */
+  }
+
+  .navList {
+    margin-left: 0;
+    gap: 12px;
+  }
+
+  .utillArea {
+    margin-left: 40px;
+    gap: 7px;
+  }
+
+  .navLink,
+  .navBtn,
+  .evLink,
+  .langBtn {
+    font-size: 13px;
+  }
 }

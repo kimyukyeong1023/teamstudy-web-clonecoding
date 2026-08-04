@@ -11,12 +11,17 @@ const DYNAMIC_UTILL_OPTIONS = [
 ];
 
 export default function Header() {
-  // 2. 현재 상태(State) 정의 (기본값 설정)
+  // 2. 기존 상태(State)
   const [navMenu, setNavMenu] = useState(DYNAMIC_NAV_OPTIONS[0]);
   const [utillMenu, setUtillMenu] = useState(DYNAMIC_UTILL_OPTIONS[0]);
 
-  // 3. 페이지가 새로고침(마운트)될 때마다 랜더링 시점에 무작위로 선택
+  // 스크롤 관련 상태(State)
+  const [scrollProgress, setScrollProgress] = useState(0); // 진행바 너비 (%)
+  const [isScrolled, setIsScrolled] = useState(false);     // 스크롤 여부 판단
+
+  // 3. 랜더링/스크롤 이벤트 처리
   useEffect(() => {
+    // 무작위 메뉴 선택 (기존 로직)
     const randomNav =
       DYNAMIC_NAV_OPTIONS[
         Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
@@ -28,10 +33,41 @@ export default function Header() {
 
     setNavMenu(randomNav);
     setUtillMenu(randomUtill);
+
+    // 스크롤 감지 함수
+    const handleScroll = () => {
+      const totalHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      if (totalHeight > 0) {
+        const currentProgress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(currentProgress);
+      }
+
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}
+    >
+      {/* 최상단 스크롤 진행바 (Progress Bar) */}
+      <div
+        className={styles.progressBar}
+        style={{ width: `${scrollProgress}%` }}
+      />
+
       {/* 중앙 정렬 및 가로 최대 폭 제한 상자 */}
       <div className={styles.headerInner}>
         {/* 1. [좌측 그룹] 로고 + 메인 네비게이션 */}
@@ -94,34 +130,56 @@ export default function Header() {
 
         {/* 2. [우측] 유틸리티 영역 */}
         <div className={styles.utillArea}>
-
           <a href="#none" className={styles.evLink}>
             {utillMenu.before}
             <b>{utillMenu.bold}</b>
             {utillMenu.after}
           </a>
 
-          <button type="button" className={styles.langBtn}>
-            KR ▾
-          </button>
+          {/* KR 언어 드롭다운 래퍼 */}
+          <div className={styles.langWrapper}>
+            <button type="button" className={styles.langBtn}>
+              KR <span className={styles.arrowIcon}>▾</span>
+            </button>
+
+            <div className={styles.langDropdown}>
+              <ul className={styles.dropdownList}>
+                <li><a href="#none">EN</a></li>
+                <li><a href="#none">CN</a></li>
+                <li><a href="#none">월드와이드</a></li>
+                <li><a href="#none">상용글로벌</a></li>
+              </ul>
+            </div>
+          </div>
 
           <span className={styles.divider}></span>
 
-          <button type="button" className={styles.iconBtn} aria-label="로그인">
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#1c1c1c"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </button>
+          {/* 로그인 아이콘 드롭다운 래퍼 */}
+          <div className={styles.loginWrapper}>
+            <button type="button" className={styles.iconBtn} aria-label="로그인">
+              {/* 🛠️ [수정] 현대차 공식 실사이트 동일 정식 사람 모양 SVG 적용 */}
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c1c1c"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="7" r="4" />
+                <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" />
+              </svg>
+            </button>
+
+            <div className={styles.loginDropdown}>
+              <ul className={styles.dropdownList}>
+                <li><a href="#none">개인 로그인 &gt;</a></li>
+                <li><a href="#none">법인 로그인 &gt;</a></li>
+              </ul>
+            </div>
+          </div>
 
           <button type="button" className={styles.iconBtn} aria-label="검색">
             <svg
