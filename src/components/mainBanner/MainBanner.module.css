@@ -6,7 +6,7 @@
 
     padding: 80px 0 30px 0;
 
-    background-color: #e4dcd3;
+    /* background-color: #e4dcd3; */
     /* 💡 추가할 코드: "아무리 창이 작아져도 1200px 밑으로는 찌그러지지 마!" */
   min-width: 1200px;
 }
