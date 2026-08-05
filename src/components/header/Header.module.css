@@ -1,4 +1,4 @@
-/* 상단 헤더 바탕 배경 (원래 높이 65px 원복) */
+/* 상단 헤더 바탕 배경 (높이 80px 기준) */
 .header {
   position: fixed;
   top: 0;
@@ -6,7 +6,7 @@
   z-index: 1000;
 
   width: 100%;
-  height: 65px;
+  height: 80px;
 
   box-sizing: border-box;
 
@@ -16,12 +16,29 @@
 
 /* 스크롤을 내렸을 때 활성화되는 헤더 스타일 */
 .scrolled {
-  background-color: #ffffff;             /* 현대차 실사이트 스크롤 시 흰색 배경 */
-  border-bottom: 1px solid #e5e5e5;      /* 하단 구분선 노출 */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* 🛠️ KR 또는 로그인 메뉴 마우스 오버 시 헤더 배경을 흰색으로 전환 & 하단 테두리 일치시킴 */
+/* 메뉴 클릭으로 드롭다운이 열렸을 때 헤더 배경 흰색 설정 */
+.menuActive {
+  background-color: #ffffff !important;
+}
+
+/* 헤더 전체 하단에 1px 네이비(#002c5f) 선을 100% 화면 전체 너비로 완전 연결 */
+.menuActive::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #002c5f;
+  z-index: 1001;
+}
+
+/* KR 또는 로그인 메뉴 마우스 오버 시 헤더 배경을 흰색으로 전환 */
 .header:has(.langWrapper:hover),
 .header:has(.loginWrapper:hover) {
   background-color: #ffffff;
@@ -33,12 +50,12 @@
   top: 0;
   left: 0;
   height: 4.5px;
-  background-color: #007fa8; /* 현대자동차 브랜드 시그니처 블루 컬러 */
+  background-color: #007fa8;
   transition: width 0.3s ease-out;
   z-index: 1010;
 }
 
-/* 100% 유동형 내부 컨테이너 (원래 원본 수치 11vw 100% 원복!) */
+/* 100% 유동형 내부 컨테이너 */
 .headerInner {
   width: 100%;
   height: 100%;
@@ -49,11 +66,12 @@
   box-sizing: border-box;
 }
 
-/* 로고와 메인 메뉴를 함께 묶은 좌측 그룹 (원래 원본 수치 7vw 100% 원복!) */
+/* 로고와 메인 메뉴를 함께 묶은 좌측 그룹 */
 .leftBox {
   display: flex;
   align-items: center;
   gap: 7vw;
+  height: 100%;
 }
 
 /* 로고 영역 */
@@ -62,7 +80,6 @@
   align-items: center;
 }
 
-/* (원래 원본 수치 margin-left: 40px 100% 원복!) */
 .logoHeading {
   margin-left: 40px;
 }
@@ -77,14 +94,12 @@
   padding: 0;
 }
 
-/* H 마크 SVG 아이콘 크기 조정 */
 .logoIcon {
   display: block;
   width: 46px;
   height: 24px;
 }
 
-/* HYUNDAI 텍스트 스타일 (원래 원본 수치 font-size: 24px 100% 원복!) */
 .logoText {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-weight: 700;
@@ -97,19 +112,20 @@
 .mainNav {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
-/* (원래 원본 수치 margin-left: 20px, gap: 2.4vw 100% 원복!) */
 .navList {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2.4vw;
   list-style: none;
   margin-left: 20px;
   padding: 0;
+  height: 100%;
 }
 
-/* (원래 원본 수치 font-size: 15px 100% 원복!) */
 .navLink,
 .navBtn {
   background: none;
@@ -121,9 +137,31 @@
   text-decoration: none;
   padding: 0;
   white-space: nowrap;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: font-weight 0.15s ease;
 }
 
-/* 우측 유틸리티 영역 (원래 원본 수치 margin-right: 80px 100% 원복!) */
+.activeNavBtn {
+  font-weight: 700;
+  color: #002c5f;
+}
+
+/* 하단 1px 네이비선 위를 슬라이딩 이동하는 3.5px 파란 박스 인디케이터 */
+.navIndicator {
+  position: absolute;
+  bottom: 0;
+  height: 3.5px;
+  background-color: #002c5f;
+  transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1002;
+}
+
+/* 우측 유틸리티 영역 */
 .utillArea {
   display: flex;
   align-items: center;
@@ -181,27 +219,25 @@
 }
 
 /* ========================================================= */
-/* KR & 로그인 드롭다운 메뉴 스타일 (헤더 65px 밀착) */
+/* KR & 로그인 드롭다운 메뉴 스타일 */
 /* ========================================================= */
 
 .langWrapper,
 .loginWrapper {
   position: relative;
-  height: 65px; /* 헤더 높이(65px)와 완벽 일치 */
+  height: 100%;
   display: flex;
   align-items: center;
 }
 
-/* 마우스 올렸을 때 화살표 180도 회전 (▾ -> ▴ 효과) */
 .langWrapper:hover .arrowIcon {
   transform: rotate(180deg);
 }
 
-/* 공통 드롭다운 상자 스타일 (헤더 바로 밑 65px 지점에 부착) */
 .langDropdown,
 .loginDropdown {
   position: absolute;
-  top: 65px; /* 헤더 밑면에 딱 밀착 */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   
@@ -216,21 +252,18 @@
   white-space: nowrap;
 }
 
-/* 사람 모양 로그인 드롭다운 위치 (사람 아이콘 중앙 바로 밑 정렬) */
 .loginDropdown {
   left: 50%;
   right: auto;
   transform: translateX(-50%);
 }
 
-/* 마우스 오버 시 드롭다운 보이기 */
 .langWrapper:hover .langDropdown,
 .loginWrapper:hover .loginDropdown {
   opacity: 1;
   visibility: visible;
 }
 
-/* 드롭다운 내 ul 목록 공통 구조 */
 .dropdownList {
   list-style: none;
   margin: 0;
@@ -240,25 +273,23 @@
   gap: 12px;
 }
 
-/* 🛠️ [1] KR 드롭다운 전용 링크 스타일 (.langLink) */
 .langLink {
-  color: #666666;            /* 기본 색상: #aaaaaa */
-  text-decoration: none;     /* a 태그 밑줄 제거 */
+  color: #aaaaaa;
+  text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   display: block;
   transition: color 0.15s ease, font-weight 0.15s ease;
 }
 
 .langLink:hover {
-  color: #000000;            /* 마우스 오버 시 검정색 */
+  color: #000000;
   font-weight: 600;
 }
 
-/* 🛠️ [2] 로그인 드롭다운 전용 링크 스타일 (.loginLink) */
 .loginLink {
-  color: #002c5f;            /* 기본 색상: #002c5f */
-  text-decoration: none;     /* a 태그 밑줄 제거 */
+  color: #002c5f;
+  text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   display: block;
@@ -266,15 +297,181 @@
 }
 
 .loginLink:hover {
-  color: #002c5f;            /* 마우스 오버 시 네이비 유지 */
+  color: #002c5f;
   font-weight: 700;
 }
 
 /* ========================================================= */
-/* 반응형(Dynamic) 미디어 쿼리 (창이 작아졌을 때만 작용!) */
+/* 대형 드롭다운 메뉴 스타일 (Mega Dropdown) */
 /* ========================================================= */
 
-/* 창 너비가 1300px 이하로 줄어들 때 */
+/* 🛠️ [수정] 드롭다운 전체 패딩 여유롭게 확대 */
+.megaDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f5f3ee;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  padding: 45px 11vw 40px; /* 기존 35px -> 45px, 30px -> 40px 로 상하 간격 확대 */
+  box-sizing: border-box;
+
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* 드롭다운 스크롤바 미세 스타일링 */
+.megaDropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.megaDropdown::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 3px;
+}
+
+/* 드롭다운 열릴 때 바깥 화면을 어둡게 만들어주는 백드롭 오버레이 */
+.backdrop {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 998;
+}
+
+/* ✕ 닫기 버튼 (우상단) */
+.megaCloseBtn {
+  position: absolute;
+  top: 28px;
+  right: 11vw;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666666;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+
+.megaCloseBtn:hover {
+  color: #000000;
+}
+
+.megaInner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* 기존 30px -> 40px 로 하단 카드 배너와의 간격 넓힘 */
+}
+
+/* 🛠️ [수정] 카테고리 행 간격 확대 */
+.megaGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 행과 행 사이의 여백 추가 */
+}
+
+.megaRow {
+  display: flex;
+  align-items: stretch;
+  min-height: 48px;
+  padding: 10px 0; /* 각 줄 위아래 공간 확보 */
+}
+
+/* 🛠️ [수정] 좌측 카테고리 제목 크기 및 위치 정렬 */
+.categoryTitle {
+  width: 220px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1c1c1c;
+  flex-shrink: 0;
+  padding: 6px 20px 6px 0;
+  border-right: 1px solid #e0dad3;
+  display: flex;
+  align-items: flex-start; /* 상단 정렬 */
+  padding-top: 2px;
+}
+
+/* 🛠️ [핵심 수정] 5열(5fr) -> 3열(3fr)로 수정하여 4번째 아이템이 다음 줄로 내려가도록 조절 */
+.categoryItems {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 현대차 실사이트와 동일하게 3열로 변경 */
+  gap: 16px 45px; /* 세로 16px, 가로 45px로 여유롭게 배치 */
+  flex: 1;
+  padding-left: 45px; /* 좌측 세로 구분선과의 여백 확대 */
+  align-items: start;
+}
+
+/* 🛠️ [수정] 소메뉴 글자 크기 및 줄간격 확장 */
+.megaLink {
+  font-size: 14px;
+  color: #444444;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.megaLink:hover {
+  color: #007fa8;
+  font-weight: 500;
+}
+
+.megaBannerArea {
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid #e0dad3;
+  margin-left: -11vw;
+  margin-right: -11vw;
+  padding-left: 11vw;
+  padding-right: 11vw;
+  padding-top: 28px;
+}
+
+.bannerCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: #ffffff;
+  padding: 18px 22px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.bannerThumb {
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: #f1f3f5;
+  border-radius: 4px;
+}
+
+.bannerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bannerTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+.bannerDate {
+  font-size: 11px;
+  color: #888888;
+}
+
+/* ========================================================= */
+/* 반응형(Dynamic) 미디어 쿼리 */
+/* ========================================================= */
+
 @media (max-width: 1300px) {
   .headerInner {
     padding: 0 4vw;
@@ -291,11 +488,21 @@
   .utillArea {
     margin-right: 20px;
   }
+  .megaDropdown {
+    padding: 35px 4vw 30px;
+  }
+  .megaCloseBtn {
+    right: 4vw;
+  }
+  .megaBannerArea {
+    margin-left: -4vw;
+    margin-right: -4vw;
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
 }
 
-/* 창 너비가 1100px 이하로 줄어들 때 */
 @media (max-width: 1100px) {
-  /* 1. HYUNDAI 텍스트 숨김 */
   .logoText {
     display: none;
   }
