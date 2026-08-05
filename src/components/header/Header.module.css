@@ -21,7 +21,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
 }
 
-/* KR 또는 로그인 메뉴 마우스 오버 시 헤더 배경을 흰색으로 전환 & 하단 테두리 생성 */
+/* 🛠️ KR 또는 로그인 메뉴 마우스 오버 시 헤더 배경을 흰색으로 전환 & 하단 테두리 일치시킴 */
 .header:has(.langWrapper:hover),
 .header:has(.loginWrapper:hover) {
   background-color: #ffffff;
@@ -230,7 +230,7 @@
   visibility: visible;
 }
 
-/* 드롭다운 내 ul/li 목록 스타일 */
+/* 드롭다운 내 ul 목록 공통 구조 */
 .dropdownList {
   list-style: none;
   margin: 0;
@@ -240,18 +240,34 @@
   gap: 12px;
 }
 
-.dropdownList li a {
-  text-decoration: none;
+/* 🛠️ [1] KR 드롭다운 전용 링크 스타일 (.langLink) */
+.langLink {
+  color: #666666;            /* 기본 색상: #aaaaaa */
+  text-decoration: none;     /* a 태그 밑줄 제거 */
   font-size: 14px;
-  color: #002c5f;
   font-weight: 500;
-  transition: color 0.15s ease, font-weight 0.15s ease;
   display: block;
+  transition: color 0.15s ease, font-weight 0.15s ease;
 }
 
-.dropdownList li a:hover {
-  color: #002c5f;
+.langLink:hover {
+  color: #000000;            /* 마우스 오버 시 검정색 */
   font-weight: 600;
+}
+
+/* 🛠️ [2] 로그인 드롭다운 전용 링크 스타일 (.loginLink) */
+.loginLink {
+  color: #002c5f;            /* 기본 색상: #002c5f */
+  text-decoration: none;     /* a 태그 밑줄 제거 */
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  transition: color 0.15s ease, font-weight 0.15s ease;
+}
+
+.loginLink:hover {
+  color: #002c5f;            /* 마우스 오버 시 네이비 유지 */
+  font-weight: 700;
 }
 
 /* ========================================================= */
@@ -284,7 +300,6 @@
     display: none;
   }
 
-  /* 🛠️ [핵심] 창이 줄어들었을 때만 로고의 margin-left(40px/70px)를 0으로 만들고 메뉴와의 gap을 독립 축소하여 로고만 맨 좌측 끝으로 밀착! */
   .logoHeading {
     margin-left: 0;
   }
@@ -294,7 +309,7 @@
   }
 
   .leftBox {
-    gap: 135px; /* 로고와 첫번째 메뉴 사이 간격을 줄여 메뉴 위치 유지 */
+    gap: 135px;
   }
 
   .navList {

@@ -144,10 +144,10 @@ export default function Header() {
 
             <div className={styles.langDropdown}>
               <ul className={styles.dropdownList}>
-                <li><a href="#none">EN</a></li>
-                <li><a href="#none">CN</a></li>
-                <li><a href="#none">월드와이드</a></li>
-                <li><a href="#none">상용글로벌</a></li>
+                <li><a href="#none" className={styles.langLink}>EN</a></li>
+                <li><a href="#none" className={styles.langLink}>CN</a></li>
+                <li><a href="#none" className={styles.langLink}>월드와이드</a></li>
+                <li><a href="#none" className={styles.langLink}>상용글로벌</a></li>
               </ul>
             </div>
           </div>
@@ -157,7 +157,6 @@ export default function Header() {
           {/* 로그인 아이콘 드롭다운 래퍼 */}
           <div className={styles.loginWrapper}>
             <button type="button" className={styles.iconBtn} aria-label="로그인">
-              {/* 🛠️ [수정] 현대차 공식 실사이트 동일 정식 사람 모양 SVG 적용 */}
               <svg
                 width="30"
                 height="30"
@@ -175,8 +174,9 @@ export default function Header() {
 
             <div className={styles.loginDropdown}>
               <ul className={styles.dropdownList}>
-                <li><a href="#none">개인 로그인 &gt;</a></li>
-                <li><a href="#none">법인 로그인 &gt;</a></li>
+                {/* 🛠️ [수정] 텍스트와 > 사이에 공백 확실히 적용 */}
+                <li><a href="#none" className={styles.loginLink}>개인 로그인{"\u00A0\u00A0\u00A0"}&gt;</a></li>
+                <li><a href="#none" className={styles.loginLink}>법인 로그인{"\u00A0\u00A0\u00A0"}&gt;</a></li>
               </ul>
             </div>
           </div>
