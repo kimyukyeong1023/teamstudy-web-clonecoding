@@ -9,8 +9,6 @@
   height: 80px;
 
   box-sizing: border-box;
-
-  /* 배경색과 테두리 변화를 부드럽게 연출 */
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -26,7 +24,7 @@
   background-color: #ffffff !important;
 }
 
-/* 헤더 전체 하단에 1px 네이비(#002c5f) 선을 100% 화면 전체 너비로 완전 연결 */
+/* 헤더 전체 하단에 1px 네이비(#002c5f) 선 연결 */
 .menuActive::after {
   content: "";
   position: absolute;
@@ -38,7 +36,6 @@
   z-index: 1001;
 }
 
-/* KR 또는 로그인 메뉴 마우스 오버 시 헤더 배경을 흰색으로 전환 */
 .header:has(.langWrapper:hover),
 .header:has(.loginWrapper:hover) {
   background-color: #ffffff;
@@ -55,7 +52,7 @@
   z-index: 1010;
 }
 
-/* 100% 유동형 내부 컨테이너 */
+/* 🛠️ [원복] 헤더 내부 레이아웃 - 기존 11vw 반응형 규격으로 복원 */
 .headerInner {
   width: 100%;
   height: 100%;
@@ -66,7 +63,7 @@
   box-sizing: border-box;
 }
 
-/* 로고와 메인 메뉴를 함께 묶은 좌측 그룹 */
+/* 🛠️ [원복] 로고 + 메인 메뉴 좌측 그룹 */
 .leftBox {
   display: flex;
   align-items: center;
@@ -74,7 +71,6 @@
   height: 100%;
 }
 
-/* 로고 영역 */
 .logoArea {
   display: flex;
   align-items: center;
@@ -108,13 +104,13 @@
   letter-spacing: 0.8px;
 }
 
-/* 메인 네비게이션 */
 .mainNav {
   display: flex;
   align-items: center;
   height: 100%;
 }
 
+/* 🛠️ [원복] 메인 네비게이션 간격 */
 .navList {
   position: relative;
   display: flex;
@@ -148,7 +144,6 @@
   color: #002c5f;
 }
 
-/* 하단 1px 네이비선 위를 슬라이딩 이동하는 3.5px 파란 박스 인디케이터 */
 .navIndicator {
   position: absolute;
   bottom: 0;
@@ -161,7 +156,7 @@
   z-index: 1002;
 }
 
-/* 우측 유틸리티 영역 */
+/* 🛠️ [원복] 우측 유틸리티 영역 위치 및 간격 */
 .utillArea {
   display: flex;
   align-items: center;
@@ -186,7 +181,6 @@
   align-items: center;
   gap: 4px;
   white-space: nowrap;
-
   background: none;
   border: none;
   font-size: 15px;
@@ -197,7 +191,6 @@
   padding-top: 4px;
 }
 
-/* 세로 구분선 */
 .divider {
   display: inline-block;
   width: 1px;
@@ -206,7 +199,6 @@
   margin: 0 2px;
 }
 
-/* 로그인, 검색, 전체메뉴 아이콘 버튼 */
 .iconBtn {
   display: flex;
   align-items: center;
@@ -217,10 +209,6 @@
   padding: 0;
   color: #000000;
 }
-
-/* ========================================================= */
-/* KR & 로그인 드롭다운 메뉴 스타일 */
-/* ========================================================= */
 
 .langWrapper,
 .loginWrapper {
@@ -240,11 +228,9 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  
   background-color: #ffffff;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   padding: 16px 20px;
-  
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -305,7 +291,6 @@
 /* 대형 드롭다운 메뉴 스타일 (Mega Dropdown) */
 /* ========================================================= */
 
-/* 🛠️ [수정] 드롭다운 전체 패딩 여유롭게 확대 */
 .megaDropdown {
   position: absolute;
   top: 100%;
@@ -314,23 +299,10 @@
   background-color: #f5f3ee;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
   z-index: 999;
-  padding: 45px 11vw 40px; /* 기존 35px -> 45px, 30px -> 40px 로 상하 간격 확대 */
+  padding: 0 11vw 24px;
   box-sizing: border-box;
-
-  max-height: calc(100vh - 80px);
-  overflow-y: auto;
 }
 
-/* 드롭다운 스크롤바 미세 스타일링 */
-.megaDropdown::-webkit-scrollbar {
-  width: 6px;
-}
-.megaDropdown::-webkit-scrollbar-thumb {
-  background-color: #cccccc;
-  border-radius: 3px;
-}
-
-/* 드롭다운 열릴 때 바깥 화면을 어둡게 만들어주는 백드롭 오버레이 */
 .backdrop {
   position: fixed;
   top: 80px;
@@ -341,18 +313,18 @@
   z-index: 998;
 }
 
-/* ✕ 닫기 버튼 (우상단) */
 .megaCloseBtn {
   position: absolute;
-  top: 28px;
+  top: 18px;
   right: 11vw;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   color: #666666;
   cursor: pointer;
   padding: 4px;
   transition: color 0.15s ease;
+  z-index: 10;
 }
 
 .megaCloseBtn:hover {
@@ -362,91 +334,95 @@
 .megaInner {
   display: flex;
   flex-direction: column;
-  gap: 40px; /* 기존 30px -> 40px 로 하단 카드 배너와의 간격 넓힘 */
+  gap: 0;
 }
 
-/* 🛠️ [수정] 카테고리 행 간격 확대 */
 .megaGrid {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 행과 행 사이의 여백 추가 */
+  gap: 0;
+  padding: 20px 0 16px 0;
+}
+
+.megaGrid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 200px;
+  width: 1px;
+  background-color: #e0dad3;
 }
 
 .megaRow {
   display: flex;
-  align-items: stretch;
-  min-height: 48px;
-  padding: 10px 0; /* 각 줄 위아래 공간 확보 */
+  align-items: center;
+  min-height: 34px;
 }
 
-/* 🛠️ [수정] 좌측 카테고리 제목 크기 및 위치 정렬 */
 .categoryTitle {
-  width: 220px;
-  font-size: 15px;
+  width: 200px;
+  font-size: 14px;
   font-weight: 700;
   color: #1c1c1c;
   flex-shrink: 0;
-  padding: 6px 20px 6px 0;
-  border-right: 1px solid #e0dad3;
+  padding: 6px 16px 6px 0;
   display: flex;
-  align-items: flex-start; /* 상단 정렬 */
-  padding-top: 2px;
+  align-items: center;
 }
 
-/* 🛠️ [핵심 수정] 5열(5fr) -> 3열(3fr)로 수정하여 4번째 아이템이 다음 줄로 내려가도록 조절 */
 .categoryItems {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 현대차 실사이트와 동일하게 3열로 변경 */
-  gap: 16px 45px; /* 세로 16px, 가로 45px로 여유롭게 배치 */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px 20px;
   flex: 1;
-  padding-left: 45px; /* 좌측 세로 구분선과의 여백 확대 */
-  align-items: start;
+  padding-left: 30px;
+  align-items: center;
 }
 
-/* 🛠️ [수정] 소메뉴 글자 크기 및 줄간격 확장 */
 .megaLink {
-  font-size: 14px;
-  color: #444444;
+  font-size: 13px;
+  color: #555555;
   text-decoration: none;
   transition: color 0.15s ease;
   white-space: nowrap;
-  line-height: 1.4;
 }
 
 .megaLink:hover {
   color: #007fa8;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .megaBannerArea {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   border-top: 1px solid #e0dad3;
   margin-left: -11vw;
   margin-right: -11vw;
   padding-left: 11vw;
   padding-right: 11vw;
-  padding-top: 28px;
+  padding-top: 18px;
 }
 
 .bannerCard {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   background-color: #ffffff;
-  padding: 18px 22px;
+  padding: 12px 16px;
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .bannerThumb {
-  font-size: 28px;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background-color: #f1f3f5;
   border-radius: 4px;
 }
@@ -454,11 +430,11 @@
 .bannerInfo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .bannerTitle {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: #1c1c1c;
 }
@@ -469,7 +445,7 @@
 }
 
 /* ========================================================= */
-/* 반응형(Dynamic) 미디어 쿼리 */
+/* 반응형 미디어 쿼리 */
 /* ========================================================= */
 
 @media (max-width: 1300px) {
@@ -488,8 +464,9 @@
   .utillArea {
     margin-right: 20px;
   }
+
   .megaDropdown {
-    padding: 35px 4vw 30px;
+    padding: 0 4vw 20px;
   }
   .megaCloseBtn {
     right: 4vw;
@@ -500,39 +477,289 @@
     padding-left: 4vw;
     padding-right: 4vw;
   }
+
+  .categoryTitle {
+    width: 170px;
+    font-size: 13px;
+  }
+  
+  .megaGrid::before {
+    left: 170px;
+  }
+
+  .categoryItems {
+    padding-left: 20px;
+    gap: 6px 14px;
+  }
 }
 
 @media (max-width: 1100px) {
   .logoText {
     display: none;
   }
-
   .logoHeading {
     margin-left: 0;
   }
-
   .headerInner {
     padding: 0 20px;
   }
-
   .leftBox {
     gap: 135px;
   }
-
   .navList {
     margin-left: 0;
     gap: 12px;
   }
-
   .utillArea {
     margin-left: 40px;
     gap: 7px;
   }
-
   .navLink,
   .navBtn,
   .evLink,
   .langBtn {
     font-size: 13px;
   }
+
+  .megaDropdown {
+    padding: 0 20px 16px;
+  }
+  .megaCloseBtn {
+    right: 20px;
+    top: 14px;
+  }
+  .megaGrid {
+    padding: 14px 0 12px 0;
+  }
+  .megaBannerArea {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 14px;
+    gap: 10px;
+  }
+
+  .categoryTitle {
+    width: 140px;
+    font-size: 13px;
+  }
+  
+  .megaGrid::before {
+    left: 140px;
+  }
+
+  .categoryItems {
+    padding-left: 14px;
+    gap: 4px 10px;
+  }
+  .megaLink {
+    font-size: 12px;
+  }
+
+  .bannerCard {
+    padding: 8px 12px;
+  }
+  .bannerTitle {
+    font-size: 11px;
+  }
+}
+
+/* ========================================================= */
+/* 🔍 검색 레이어 스타일 (Search Layer) */
+/* ========================================================= */
+
+.searchLayer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f5f3ee; /* 현대차 공식 웜톤 연베이지 배경 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 상단 검색 입력바 노출 구역 */
+.searchBarContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 11vw;
+  border-bottom: 1px solid #e0dad3;
+}
+
+.searchInputBox {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+.searchInput {
+  flex: 1;
+  height: 44px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1c1c1c;
+  background: transparent;
+}
+
+.searchInput::placeholder {
+  color: #888888;
+}
+
+.searchClearBtn {
+  background: #aaaaaa;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 0;
+}
+
+.searchIconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.searchCloseBtn {
+  position: absolute;
+  right: 11vw;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #666666;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+
+.searchCloseBtn:hover {
+  color: #000000;
+}
+
+/* 하단 최근 검색어 & 인기 검색어 드롭다운 구역 */
+.searchContentContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #f5f3ee;
+  padding: 24px 0 30px;
+}
+
+.searchContentBox {
+  display: flex;
+  width: 600px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* 좌측 최근 검색어 섹션 */
+.recentSearchSection {
+  flex: 1;
+  padding: 20px 24px;
+  border-right: 1px solid #eeeeee;
+  background-color: #ffffff;
+}
+
+/* 우측 인기 검색어 섹션 */
+.popularSearchSection {
+  flex: 1;
+  padding: 20px 24px 12px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.searchSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.searchSectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+.clearHistoryBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #888888;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clearHistoryBtn:hover {
+  text-decoration: underline;
+}
+
+.popularList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popularItem {
+  font-size: 13px;
+}
+
+.popularLink {
+  color: #555555;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.popularLink:hover {
+  color: #007fa8;
+  font-weight: 500;
+}
+
+.autoCompleteFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.autoCompleteBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #888888;
+  cursor: pointer;
+  padding: 0;
+}
+
+.autoCompleteBtn:hover {
+  color: #1c1c1c;
 }

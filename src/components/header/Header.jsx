@@ -1,13 +1,61 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Header.module.css";
 
-// 1. 새로고침 시 무작위로 노출할 메뉴 후보 데이터 정의
-const DYNAMIC_NAV_OPTIONS = ["Shop", "현대인증중고차", "Bluelink Store"];
+// 1. 새로고침 시 무작위로 노출할 메뉴 후보 데이터 및 링크 정의
+const DYNAMIC_NAV_OPTIONS = [
+  {
+    name: "Shop",
+    url: "https://shop.hyundai.com/section/welcome?utm_source=hyundai_d_com&utm_medium=affiliates&utm_campaign=gnb",
+  },
+  {
+    name: "현대인증중고차",
+    url: "https://certified.hyundai.com/p/display/main?utm_source=hyundai.com&utm_ID=GNB&requestURI=%2Flink%2FredirectLink.do",
+  },
+  {
+    name: "Bluelink Store",
+    url: "https://commerce.hyundai.com/kr/ko/commerce/fod?utm_source=hyundai_com&utm_medium=web&utm_campaign=homepage_promotion",
+  },
+];
+
 const DYNAMIC_UTILL_OPTIONS = [
-  { before: "Hi, ", bold: "EV", after: "" },
-  { before: "사양백과", bold: "", after: "" },
-  { before: "", bold: "Trendy ", after: "Hyundai" },
-  { before: "", bold: "내 차 ", after: "추천받기" },
+  {
+    before: "Hi, ",
+    bold: "EV",
+    after: "",
+    url: "https://www.hyundai.com/kr/ko/e/service-membership/ev/hi-ev",
+  },
+  {
+    before: "사양백과",
+    bold: "",
+    after: "",
+    url: "https://www.hyundai.com/kr/ko/e/vehicles/spec-dictionary?carCode=GN11",
+  },
+  {
+    before: "",
+    bold: "Trendy ",
+    after: "Hyundai",
+    url: "https://www.hyundai.com/kr/ko/e/vehicles/trendy-hyundai",
+  },
+  {
+    before: "",
+    bold: "내 차 ",
+    after: "추천받기",
+    url: "https://www.hyundai.com/kr/ko/e/vehicles/explorer?utm_source=homepage&utm_medium=gnb&utm_campaign=find_mycar",
+  },
+];
+
+// 인기 검색어 Top 10 데이터
+const POPULAR_KEYWORDS = [
+  "1위. 사양조회",
+  "2위. 아반떼",
+  "3위. 네비게이션 업데이트",
+  "4위. 제네시스",
+  "5위. 네비게이션",
+  "6위. 캐스퍼",
+  "7위. 그랜저",
+  "8위. 코나",
+  "9위. 스타리아",
+  "10위. 현대 제네시스 셀렉션",
 ];
 
 // 4가지 대형 드롭다운 메뉴 데이터 구조
@@ -63,8 +111,11 @@ export default function Header() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 드롭다운 활성화 상태 & 파란 박스 위치 계산 상태/Ref
+  // 드롭다운 및 검색 레이아웃 상태 (신규 추가)
   const [activeMenu, setActiveMenu] = useState(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
   const navRefs = useRef({});
 
@@ -121,6 +172,7 @@ export default function Header() {
 
   // 메뉴 버튼 클릭 토글 핸들러
   const handleMenuClick = (menuName) => {
+    setIsSearchOpen(false); // 검색창 열려있으면 닫기
     if (activeMenu === menuName) {
       setActiveMenu(null);
     } else {
@@ -128,15 +180,21 @@ export default function Header() {
     }
   };
 
+  // 돋보기 버튼 클릭 핸들러 (신규 추가)
+  const handleSearchToggle = () => {
+    setActiveMenu(null); // 메가드롭다운 열려있으면 닫기
+    setIsSearchOpen((prev) => !prev);
+  };
+
   return (
     <>
       <header
         className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${
-          activeMenu ? styles.menuActive : ""
+          activeMenu || isSearchOpen ? styles.menuActive : ""
         }`}
       >
-        {/* 드롭다운 메뉴가 열려있지 않을 때만 상단 진행바 노출 */}
-        {!activeMenu && (
+        {/* 드롭다운/검색창이 열려있지 않을 때만 상단 진행바 노출 */}
+        {!activeMenu && !isSearchOpen && (
           <div
             className={styles.progressBar}
             style={{ width: `${scrollProgress}%` }}
@@ -201,9 +259,9 @@ export default function Header() {
                 )}
 
                 <li>
-                  <button type="button" className={styles.navBtn}>
-                    {navMenu}
-                  </button>
+                  <a href={navMenu.url} className={styles.navLink}>
+                    {navMenu.name}
+                  </a>
                 </li>
 
                 {/* 클릭한 메뉴 따라 슬라이딩 이동하는 파란 박스 인디케이터 */}
@@ -214,7 +272,7 @@ export default function Header() {
 
           {/* 2. [우측] 유틸리티 영역 */}
           <div className={styles.utillArea}>
-            <a href="#none" className={styles.evLink}>
+            <a href={utillMenu.url} className={styles.evLink}>
               {utillMenu.before}
               <b>{utillMenu.bold}</b>
               {utillMenu.after}
@@ -264,7 +322,13 @@ export default function Header() {
               </div>
             </div>
 
-            <button type="button" className={styles.iconBtn} aria-label="검색">
+            {/* 돋보기 버튼 (검색창 토글) (수정) */}
+            <button
+              type="button"
+              className={styles.iconBtn}
+              aria-label="검색"
+              onClick={handleSearchToggle}
+            >
               <svg
                 width="30"
                 height="30"
@@ -280,10 +344,14 @@ export default function Header() {
               </svg>
             </button>
 
+            {/* 작대기 버튼 (전체메뉴 링크 이동) (수정) */}
             <button
               type="button"
               className={styles.iconBtn}
               aria-label="전체메뉴"
+              onClick={() => {
+                window.location.href = "https://www.hyundai.com/kr/ko/e/menu-list";
+              }}
             >
               <svg
                 width="30"
@@ -301,6 +369,90 @@ export default function Header() {
             </button>
           </div>
         </div>
+
+        {/* 돋보기 클릭 시 펼쳐지는 검색 레이어 패널 (신규 추가) */}
+        {isSearchOpen && (
+          <div className={styles.searchLayer}>
+            {/* 상단 검색어 입력바 영역 */}
+            <div className={styles.searchBarContainer}>
+              <div className={styles.searchInputBox}>
+                <input
+                  type="text"
+                  className={styles.searchInput}
+                  placeholder="검색어를 입력해주세요."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    className={styles.searchClearBtn}
+                    onClick={() => setSearchQuery("")}
+                    aria-label="지우기"
+                  >
+                    ✕
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className={styles.searchIconBtn}
+                  aria-label="검색 실행"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* 우상단 ✕ 닫기 버튼 */}
+              <button
+                type="button"
+                className={styles.searchCloseBtn}
+                onClick={() => setIsSearchOpen(false)}
+                aria-label="닫기"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* 하단 최근 검색어 및 인기 검색어 영역 */}
+            <div className={styles.searchContentContainer}>
+              <div className={styles.searchContentBox}>
+                {/* 좌측: 최근 검색어 */}
+                <div className={styles.recentSearchSection}>
+                  <div className={styles.searchSectionHeader}>
+                    <span className={styles.searchSectionTitle}>최근 검색어</span>
+                    <button type="button" className={styles.clearHistoryBtn}>
+                      검색기록 삭제
+                    </button>
+                  </div>
+                </div>
+
+                {/* 우측: 인기 검색어 Top 10 */}
+                <div className={styles.popularSearchSection}>
+                  <div className={styles.searchSectionHeader}>
+                    <span className={styles.searchSectionTitle}>인기 검색어 Top10</span>
+                  </div>
+                  <ul className={styles.popularList}>
+                    {POPULAR_KEYWORDS.map((item, idx) => (
+                      <li key={idx} className={styles.popularItem}>
+                        <a href="#none" className={styles.popularLink}>
+                          {item}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className={styles.autoCompleteFooter}>
+                    <button type="button" className={styles.autoCompleteBtn}>
+                      자동 완성 끄기
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 대형 드롭다운 패널 영역 */}
         {activeMenu && MEGA_MENUS[activeMenu] && (
@@ -375,11 +527,14 @@ export default function Header() {
         )}
       </header>
 
-      {/* 드롭다운 바깥 영역을 어둡게 만들어주는 딤 오버레이 패널 */}
-      {activeMenu && (
+      {/* 드롭다운 / 검색창 바깥 영역을 어둡게 만들어주는 딤 오버레이 패널 */}
+      {(activeMenu || isSearchOpen) && (
         <div
           className={styles.backdrop}
-          onClick={() => setActiveMenu(null)}
+          onClick={() => {
+            setActiveMenu(null);
+            setIsSearchOpen(false);
+          }}
         />
       )}
     </>
