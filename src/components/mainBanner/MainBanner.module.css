@@ -9,6 +9,15 @@
     /* background-color: #e4dcd3; */
     /* 💡 추가할 코드: "아무리 창이 작아져도 1200px 밑으로는 찌그러지지 마!" */
   min-width: 1200px;
+  
+}
+.titleWrap{
+        
+/* 처음에는 오른쪽 바깥 */
+    transform: translateX(120%);
+
+    /* transform이 바뀔 때 1초 동안 움직임 */
+    transition: transform 2s ease;
 }
 
 .titleBox{
@@ -28,6 +37,8 @@
 .titleBox > p{
     height: 59px;
     font-size: 25px;
+
+
 
 }
 
@@ -63,6 +74,7 @@
 .bannerImg.show {
     transform: translateX(0);
 }
+
 
 
 .bannermove{
