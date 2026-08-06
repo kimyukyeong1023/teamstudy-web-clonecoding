@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./Header.module.css";
 
 /* =========================================================
-   1. 외부 설정 데이터 (데이터 구조 정의)
+   1. 외부 설정 데이터 (GNB 메뉴 및 키워드 데이터 구조)
    ========================================================= */
 
-// 새로고침 시 무작위 노출 메뉴 옵션 (메인 네비게이션)
+// 페이지 새로고침 시 메인 네비게이션 끝에 랜덤으로 노출될 메뉴 목록
 const DYNAMIC_NAV_OPTIONS = [
   {
     name: "Shop",
@@ -21,7 +21,7 @@ const DYNAMIC_NAV_OPTIONS = [
   },
 ];
 
-// 새로고침 시 무작위 노출 메뉴 옵션 (우측 유틸리티 영역)
+// 페이지 새로고침 시 우측 유틸리티 영역에 랜덤으로 노출될 프로모션 텍스트
 const DYNAMIC_UTILL_OPTIONS = [
   {
     before: "Hi, ",
@@ -49,7 +49,7 @@ const DYNAMIC_UTILL_OPTIONS = [
   },
 ];
 
-// 검색창 내 인기 검색어 Top 10 목록
+// 검색 레이어 내 실시간 인기 검색어 Top 10 목록
 const POPULAR_KEYWORDS = [
   "1위. 사양조회",
   "2위. 아반떼",
@@ -63,7 +63,7 @@ const POPULAR_KEYWORDS = [
   "10위. 현대 제네시스 셀렉션",
 ];
 
-// 대형 메가 드롭다운 메뉴 카테고리 데이터
+// 카테고리별 대형 드롭다운(Mega Dropdown) 메뉴 세부 데이터
 const MEGA_MENUS = {
   "구매/이벤트": {
     categories: [
@@ -236,23 +236,23 @@ const MEGA_MENUS = {
 
 export default function Header() {
   /* =========================================================
-     2. 상태(State) 및 Hook 정의
+     2. 리액트 상태(State) 및 참조(Ref) 관리
      ========================================================= */
 
-  // 무작위 선택 메뉴 상태
+  // 동적 노출 메뉴 상태 (랜덤)
   const [navMenu, setNavMenu] = useState(DYNAMIC_NAV_OPTIONS[0]);
   const [utillMenu, setUtillMenu] = useState(DYNAMIC_UTILL_OPTIONS[0]);
 
-  // 스크롤 감지 및 상단 진행바 상태
+  // 페이지 스크롤 감지 및 진행률 퍼센트
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 드롭다운 메뉴 및 검색 레이어 활성화 상태
+  // 활성화된 메가 드롭다운 메뉴 및 검색 레이어 상태
   const [activeMenu, setActiveMenu] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // 메뉴 밑 슬라이딩 인디케이터 스타일 및 Ref
+  // 메뉴 하단 슬라이딩 하이라이트 바 스타일 및 DOM 참조
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     width: 0,
@@ -261,20 +261,19 @@ export default function Header() {
   const navRefs = useRef({});
 
   /* =========================================================
-     3. Effect 처리 (초기화, 스크롤 감지, 슬라이더 계산)
+     3. Effect 처리 (이벤트 리스너 및 애니메이션 동기화)
      ========================================================= */
 
-  // 랜더링 초기화 및 스크롤 이벤트 등록
+  // 마운트 시 랜덤 메뉴 설정 및 스크롤 진행률 계산 리스너 등록
   useEffect(() => {
-    // 렌더링 시 무작위 메뉴 선발
     setNavMenu(
       DYNAMIC_NAV_OPTIONS[
-        Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
+      Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
       ],
     );
     setUtillMenu(
       DYNAMIC_UTILL_OPTIONS[
-        Math.floor(Math.random() * DYNAMIC_UTILL_OPTIONS.length)
+      Math.floor(Math.random() * DYNAMIC_UTILL_OPTIONS.length)
       ],
     );
 
@@ -291,7 +290,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 활성화된 메뉴 버튼 위치 추적하여 인디케이터(파란 박스) 위치 재계산
+  // 활성화된 메뉴 위치 추적 -> 하단 인디케이터 바 위치 및 넓이 동적 계산
   useEffect(() => {
     if (activeMenu && navRefs.current[activeMenu]) {
       const el = navRefs.current[activeMenu];
@@ -306,38 +305,38 @@ export default function Header() {
   }, [activeMenu]);
 
   /* =========================================================
-     4. 이벤트 핸들러 함수
+     4. 사용자 상호작용 이벤트 핸들러
      ========================================================= */
 
-  // 메인 메뉴 버튼 토글 핸들러
+  // 상단 네비게이션 메뉴 클릭 (드롭다운 토글)
   const handleMenuClick = (menuName) => {
-    setIsSearchOpen(false); // 검색창 활성화 시 닫기
+    setIsSearchOpen(false);
     setActiveMenu((prev) => (prev === menuName ? null : menuName));
   };
 
-  // 돋보기 버튼 토글 핸들러
+  // 우측 돋보기 아이콘 클릭 (검색 레이어 토글)
   const handleSearchToggle = () => {
-    setActiveMenu(null); // 메가드롭다운 활성화 시 닫기
+    setActiveMenu(null);
     setIsSearchOpen((prev) => !prev);
   };
 
-  // 모든 드롭다운 및 모달 닫기
+  // 모달, 드롭다운, 검색창 등 모든 오버레이 닫기
   const handleCloseAll = () => {
     setActiveMenu(null);
     setIsSearchOpen(false);
   };
 
   /* =========================================================
-     5. JSX 랜더링 구조
+     5. JSX 렌더링 구조
      ========================================================= */
   return (
     <>
+      {/* 헤더 최상위 고정 레이아웃 컨테이너 */}
       <header
-        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${
-          activeMenu || isSearchOpen ? styles.menuActive : ""
-        }`}
+        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${activeMenu || isSearchOpen ? styles.menuActive : ""
+          }`}
       >
-        {/* 스크롤 진행바 (메뉴나 검색창이 열려있지 않을 때만 표시) */}
+        {/* 상단 스크롤 위치 표시 프로그레스 바 */}
         {!activeMenu && !isSearchOpen && (
           <div
             className={styles.progressBar}
@@ -345,9 +344,11 @@ export default function Header() {
           />
         )}
 
+        {/* 헤더 가로 콘텐츠 감싸는 내부 정렬 영역 */}
         <div className={styles.headerInner}>
-          {/* [좌측] 로고 + 메인 네비게이션 영역 */}
+          {/* [좌측 그룹] 현대자동차 로고 + 메인 네비게이션 */}
           <div className={styles.leftBox}>
+            {/* 공식 로고 아이콘 및 타이틀 링크 */}
             <div className={styles.logoArea}>
               <h1 className={styles.logoHeading}>
                 <button
@@ -373,6 +374,7 @@ export default function Header() {
               </h1>
             </div>
 
+            {/* 주요 카테고리 메뉴 목록 */}
             <nav className={styles.mainNav}>
               <ul className={styles.navList}>
                 <li>
@@ -384,6 +386,7 @@ export default function Header() {
                   </a>
                 </li>
 
+                {/* 메가 드롭다운 메뉴 바인딩 목록 */}
                 {[
                   "구매/이벤트",
                   "서비스/멤버십",
@@ -394,9 +397,8 @@ export default function Header() {
                     <button
                       type="button"
                       ref={(el) => (navRefs.current[menuName] = el)}
-                      className={`${styles.navBtn} ${
-                        activeMenu === menuName ? styles.activeNavBtn : ""
-                      }`}
+                      className={`${styles.navBtn} ${activeMenu === menuName ? styles.activeNavBtn : ""
+                        }`}
                       onClick={() => handleMenuClick(menuName)}
                     >
                       {menuName}
@@ -404,27 +406,29 @@ export default function Header() {
                   </li>
                 ))}
 
+                {/* 랜덤 노출 메뉴 링크 */}
                 <li>
                   <a href={navMenu.url} className={styles.navLink}>
                     {navMenu.name}
                   </a>
                 </li>
 
-                {/* 슬라이딩 인디케이터 하이라이트 박스 */}
+                {/* 메뉴 이동 시 하단에 따라붙는 모션 하이라이트 인디케이터 */}
                 <span className={styles.navIndicator} style={indicatorStyle} />
               </ul>
             </nav>
           </div>
 
-          {/* [우측] 유틸리티 영역 (언어, 로그인, 검색, 전체메뉴) */}
+          {/* [우측 그룹] 유틸리티 영역 (이벤트, 언어선택, 로그인, 검색, 전체메뉴) */}
           <div className={styles.utillArea}>
+            {/* 프로모션 이벤트 텍스트 링크 */}
             <a href={utillMenu.url} className={styles.evLink}>
               {utillMenu.before}
               <b>{utillMenu.bold}</b>
               {utillMenu.after}
             </a>
 
-            {/* KR 언어 선택 드롭다운 */}
+            {/* 다국어 언어 변경 드롭다운 모달 */}
             <div className={styles.langWrapper}>
               <button type="button" className={styles.langBtn}>
                 KR <span className={styles.arrowIcon}>▾</span>
@@ -457,7 +461,7 @@ export default function Header() {
 
             <span className={styles.divider}></span>
 
-            {/* 로그인 아이콘 드롭다운 */}
+            {/* 로그인 유형 선택 드롭다운 모달 */}
             <div className={styles.loginWrapper}>
               <button
                 type="button"
@@ -494,7 +498,7 @@ export default function Header() {
               </div>
             </div>
 
-            {/* 돋보기 (검색창 토글) 버튼 */}
+            {/* 통합 검색 패널 토글 버튼 */}
             <button
               type="button"
               className={styles.iconBtn}
@@ -516,7 +520,7 @@ export default function Header() {
               </svg>
             </button>
 
-            {/* 전체메뉴 (링크 이동) 버튼 */}
+            {/* 사이트 전체 메뉴 페이지 이동 버튼 */}
             <button
               type="button"
               className={styles.iconBtn}
@@ -543,9 +547,10 @@ export default function Header() {
           </div>
         </div>
 
-        {/* 🔍 검색 레이어 패널 */}
+        {/* 통합 검색 상단 레이어 패널 */}
         {isSearchOpen && (
           <div className={styles.searchLayer}>
+            {/* 검색어 입력창 구역 */}
             <div className={styles.searchBarContainer}>
               <div className={styles.searchInputBox}>
                 <input
@@ -584,6 +589,7 @@ export default function Header() {
                 </button>
               </div>
 
+              {/* 검색 레이어 닫기 버튼 */}
               <button
                 type="button"
                 className={styles.searchCloseBtn}
@@ -594,9 +600,10 @@ export default function Header() {
               </button>
             </div>
 
+            {/* 최근 검색어 & 인기 검색어 콘텐츠 구역 */}
             <div className={styles.searchContentContainer}>
               <div className={styles.searchContentBox}>
-                {/* 최근 검색어 구역 */}
+                {/* 좌측 최근 검색어 관리 영역 */}
                 <div className={styles.recentSearchSection}>
                   <div className={styles.searchSectionHeader}>
                     <span className={styles.searchSectionTitle}>
@@ -608,7 +615,7 @@ export default function Header() {
                   </div>
                 </div>
 
-                {/* 인기 검색어 구역 */}
+                {/* 우측 실시간 인기 검색어 목록 영역 */}
                 <div className={styles.popularSearchSection}>
                   <div className={styles.searchSectionHeader}>
                     <span className={styles.searchSectionTitle}>
@@ -635,9 +642,10 @@ export default function Header() {
           </div>
         )}
 
-        {/* 🍔 대형 메가 드롭다운 패널 */}
+        {/* 대형 드롭다운 메뉴 (Mega Dropdown) 패널 */}
         {activeMenu && MEGA_MENUS[activeMenu] && (
           <div className={styles.megaDropdown}>
+            {/* 드롭다운 닫기 버튼 */}
             <button
               type="button"
               className={styles.megaCloseBtn}
@@ -648,6 +656,7 @@ export default function Header() {
             </button>
 
             <div className={styles.megaInner}>
+              {/* 카테고리별 그리드 및 링크 출력 영역 */}
               <div className={styles.megaGrid}>
                 {MEGA_MENUS[activeMenu].categories.map((cat, idx) => (
                   <div key={idx} className={styles.megaRow}>
@@ -667,7 +676,7 @@ export default function Header() {
                 ))}
               </div>
 
-              {/* 하단 프로모션 배너 구역 */}
+              {/* 하단 프로모션 이벤트 카드 배너 영역 */}
               <div className={styles.megaBannerArea}>
                 <div className={styles.bannerCard}>
                   <div className={styles.bannerThumb}>📱</div>
@@ -710,7 +719,7 @@ export default function Header() {
         )}
       </header>
 
-      {/* 배경 어둡게 오버레이 (드롭다운 또는 검색창 열렸을 때) */}
+      {/* 메뉴 및 검색창 활성화 시 뒷배경 어둡게 차단하는 오버레이 */}
       {(activeMenu || isSearchOpen) && (
         <div className={styles.backdrop} onClick={handleCloseAll} />
       )}
