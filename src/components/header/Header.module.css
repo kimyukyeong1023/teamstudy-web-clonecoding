@@ -260,17 +260,22 @@
 }
 
 .langLink {
-  color: #aaaaaa;
+  color: #555555;
   text-decoration: none;
+  text-align: center;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   display: block;
   transition: color 0.15s ease, font-weight 0.15s ease;
 }
 
 .langLink:hover {
-  color: #000000;
-  font-weight: 600;
+  color: #002c5f;                 /* 현대차 시그니처 네이비 컬러 */
+  font-weight: 500;                 /* 글자 굵게 */
+  text-decoration: underline;       /* 밑줄 생성 */
+  text-decoration-color: #002c5f; /* 밑줄 색상 */
+  text-decoration-thickness: 2px;   /* 밑줄 두께 (이미지처럼 두껍게) */
+  text-underline-offset: 5px;       /* 글자와 밑줄 사이의 간격 */
 }
 
 .loginLink {
@@ -284,7 +289,7 @@
 
 .loginLink:hover {
   color: #002c5f;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 /* ========================================================= */
