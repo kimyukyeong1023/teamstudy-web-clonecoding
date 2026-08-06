@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Header.module.css";
 
-// 1. 새로고침 시 무작위로 노출할 메뉴 후보 데이터 및 링크 정의
+/* =========================================================
+   1. 외부 설정 데이터 (데이터 구조 정의)
+   ========================================================= */
+
+// 새로고침 시 무작위 노출 메뉴 옵션 (메인 네비게이션)
 const DYNAMIC_NAV_OPTIONS = [
   {
     name: "Shop",
@@ -17,6 +21,7 @@ const DYNAMIC_NAV_OPTIONS = [
   },
 ];
 
+// 새로고침 시 무작위 노출 메뉴 옵션 (우측 유틸리티 영역)
 const DYNAMIC_UTILL_OPTIONS = [
   {
     before: "Hi, ",
@@ -44,7 +49,7 @@ const DYNAMIC_UTILL_OPTIONS = [
   },
 ];
 
-// 인기 검색어 Top 10 데이터
+// 검색창 내 인기 검색어 Top 10 목록
 const POPULAR_KEYWORDS = [
   "1위. 사양조회",
   "2위. 아반떼",
@@ -58,105 +63,235 @@ const POPULAR_KEYWORDS = [
   "10위. 현대 제네시스 셀렉션",
 ];
 
-// 4가지 대형 드롭다운 메뉴 데이터 구조
+// 대형 메가 드롭다운 메뉴 카테고리 데이터
 const MEGA_MENUS = {
   "구매/이벤트": {
     categories: [
-      { title: "모델탐색", items: ["Trendy Hyundai", "내 차 추천받기", "모델 비교", "사양백과"] },
-      { title: "구매", items: ["All-in-One 구매 가이드", "내 차 만들기(견적)", "구매상담신청", "카탈로그/가격표", "전기/수소차 구매보조금 조회", "H Genuine Accessories"] },
-      { title: "전시/시승", items: ["승용 판매/시승 네트워크", "상용 판매 네트워크", "시승신청", "신규전시장 안내"] },
+      {
+        title: "모델탐색",
+        items: ["Trendy Hyundai", "내 차 추천받기", "모델 비교", "사양백과"],
+      },
+      {
+        title: "구매",
+        items: [
+          "All-in-One 구매 가이드",
+          "내 차 만들기(견적)",
+          "구매상담신청",
+          "카탈로그/가격표",
+          "전기/수소차 구매보조금 조회",
+          "H Genuine Accessories",
+        ],
+      },
+      {
+        title: "전시/시승",
+        items: [
+          "승용 판매/시승 네트워크",
+          "상용 판매 네트워크",
+          "시승신청",
+          "신규전시장 안내",
+        ],
+      },
       { title: "구매혜택", items: ["이달의 구매혜택", "특별기획전"] },
       { title: "이벤트", items: ["진행중 이벤트", "구매후기"] },
-      { title: "정책 안내", items: ["차량 구매 절차", "차량 구매 제도/규정", "장애인 차량 구매 가이드", "포인트 적립 (신차 구매)", "보증수리 안내", "자동차 교환환불제도 안내", "하자재발 통보서 안내", "중고차 가격보장 프로그램"] },
+      {
+        title: "정책 안내",
+        items: [
+          "차량 구매 절차",
+          "차량 구매 제도/규정",
+          "장애인 차량 구매 가이드",
+          "포인트 적립 (신차 구매)",
+          "보증수리 안내",
+          "자동차 교환환불제도 안내",
+          "하자재발 통보서 안내",
+          "중고차 가격보장 프로그램",
+        ],
+      },
       { title: "Shop", items: ["HyundaiShop ↗", "현대 컬렉션 ↗"] },
-      { title: "내 차 판매/트레이드인", items: ["인증중고차 바로가기 ↗", "내 차 시세 조회 ↗", "트레이드-인 혜택 안내 ↗"] },
+      {
+        title: "내 차 판매/트레이드인",
+        items: [
+          "인증중고차 바로가기 ↗",
+          "내 차 시세 조회 ↗",
+          "트레이드-인 혜택 안내 ↗",
+        ],
+      },
     ],
   },
   "서비스/멤버십": {
     categories: [
       { title: "내 차", items: ["마이페이지", "사양조회", "친환경 폐차"] },
-      { title: "블루멤버스", items: ["블루멤버스 소개", "Hyundai Mobility 카드", "포인트 안내", "포인트 적립/사용처", "포인트 양도/신청 조회", "멤버십 카드 재발급 신청 안내", "실 운전자 차량 등록", "포인트 정책 변경 안내", "패밀리 등록", "패밀리 현황"] },
-      { title: "서비스 네트워크 찾기", items: ["서비스 예약 안내 (ARS)", "서비스 네트워크 검색/예약", "서비스 네트워크 소개", "특장 서비스 네트워크", "서비스 기술교육 소개", "부품 가격/보유점 조회 ↗"] },
+      {
+        title: "블루멤버스",
+        items: [
+          "블루멤버스 소개",
+          "Hyundai Mobility 카드",
+          "포인트 안내",
+          "포인트 적립/사용처",
+          "포인트 양도/신청 조회",
+          "멤버십 카드 재발급 신청 안내",
+          "실 운전자 차량 등록",
+          "포인트 정책 변경 안내",
+          "패밀리 등록",
+          "패밀리 현황",
+        ],
+      },
+      {
+        title: "서비스 네트워크 찾기",
+        items: [
+          "서비스 예약 안내 (ARS)",
+          "서비스 네트워크 검색/예약",
+          "서비스 네트워크 소개",
+          "특장 서비스 네트워크",
+          "서비스 기술교육 소개",
+          "부품 가격/보유점 조회 ↗",
+        ],
+      },
       { title: "정비/서비스 프로그램", items: ["올 케어 서비스 맵"] },
-      { title: "블루핸즈 가맹사업", items: ["가맹사업 소개", "가맹점 개설 안내", "가맹점 모집", "유형별 블루핸즈"] },
-      { title: "전기차/수소차", items: ["Hi, EV", "2026 EV 에브리케어", "EV 비즈 케어", "넥쏘 에브리케어", "현대 EV 충전 솔루션", "현대 N 급속 충전소 충전혜택", "전기/수소차 충전소 찾기", "전기차 배터리 정보"] },
+      {
+        title: "블루핸즈 가맹사업",
+        items: [
+          "가맹사업 소개",
+          "가맹점 개설 안내",
+          "가맹점 모집",
+          "유형별 블루핸즈",
+        ],
+      },
+      {
+        title: "전기차/수소차",
+        items: [
+          "Hi, EV",
+          "2026 EV 에브리케어",
+          "EV 비즈 케어",
+          "넥쏘 에브리케어",
+          "현대 EV 충전 솔루션",
+          "현대 N 급속 충전소 충전혜택",
+          "전기/수소차 충전소 찾기",
+          "전기차 배터리 정보",
+        ],
+      },
     ],
   },
   "디지털/고객지원": {
     categories: [
-      { title: "업데이트", items: ["차량 소프트웨어 업데이트 ↗", "블루링크 스토어 ↗"] },
-      { title: "디지털 서비스", items: ["마이현대 앱", "블루링크", "인카페이먼트", "현대 제네시스 셀렉션", "운전결심", "Hyundai N App"] },
-      { title: "Help Desk", items: ["고객센터", "FAQ (자주하는 질문)", "1:1 문의", "사용설명서 다운로드 (자료실)", "블루링크 고객지원", "현대 디지털 키 1 고객지원", "인카페이먼트 고객지원", "상용 소모품 정보", "긴급 대응 가이드 ↗"] },
+      {
+        title: "업데이트",
+        items: ["차량 소프트웨어 업데이트 ↗", "블루링크 스토어 ↗"],
+      },
+      {
+        title: "디지털 서비스",
+        items: [
+          "마이현대 앱",
+          "블루링크",
+          "인카페이먼트",
+          "현대 제네시스 셀렉션",
+          "운전결심",
+          "Hyundai N App",
+        ],
+      },
+      {
+        title: "Help Desk",
+        items: [
+          "고객센터",
+          "FAQ (자주하는 질문)",
+          "1:1 문의",
+          "사용설명서 다운로드 (자료실)",
+          "블루링크 고객지원",
+          "현대 디지털 키 1 고객지원",
+          "인카페이먼트 고객지원",
+          "상용 소모품 정보",
+          "긴급 대응 가이드 ↗",
+        ],
+      },
       { title: "공지/뉴스", items: ["공지사항", "뉴스"] },
       { title: "종료된 서비스", items: ["굿 드라이버 프로그램"] },
     ],
   },
-  "브랜드": {
+  브랜드: {
     categories: [
-      { title: "브랜드 스토리", items: ["브랜드 철학", "브랜드 저널 ↗", "헤리티지", "모델 히스토리"] },
+      {
+        title: "브랜드 스토리",
+        items: ["브랜드 철학", "브랜드 저널 ↗", "헤리티지", "모델 히스토리"],
+      },
       { title: "모터 스포츠", items: ["WRC", "WTCR", "뉘르부르크링 24시"] },
-      { title: "패밀리 사이트", items: ["현대 모터스튜디오", "드라이빙 익스피리언스 ↗", "현대 컬렉션 ↗", "인재채용 ↗"] },
-      { title: "사업망", items: ["국내 사업망 소개", "해외 사업망 소개 ↗", "공장 견학"] },
-      { title: "포레스트런", items: ["포레스트런 소개", "히스토리", "참가신청"] },
+      {
+        title: "패밀리 사이트",
+        items: [
+          "현대 모터스튜디오",
+          "드라이빙 익스피리언스 ↗",
+          "현대 컬렉션 ↗",
+          "인재채용 ↗",
+        ],
+      },
+      {
+        title: "사업망",
+        items: ["국내 사업망 소개", "해외 사업망 소개 ↗", "공장 견학"],
+      },
+      {
+        title: "포레스트런",
+        items: ["포레스트런 소개", "히스토리", "참가신청"],
+      },
     ],
   },
 };
 
 export default function Header() {
-  // 2. 기존 상태(State)
+  /* =========================================================
+     2. 상태(State) 및 Hook 정의
+     ========================================================= */
+
+  // 무작위 선택 메뉴 상태
   const [navMenu, setNavMenu] = useState(DYNAMIC_NAV_OPTIONS[0]);
   const [utillMenu, setUtillMenu] = useState(DYNAMIC_UTILL_OPTIONS[0]);
 
-  // 스크롤 관련 상태(State)
+  // 스크롤 감지 및 상단 진행바 상태
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 드롭다운 및 검색 레이아웃 상태 (신규 추가)
+  // 드롭다운 메뉴 및 검색 레이어 활성화 상태
   const [activeMenu, setActiveMenu] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
+  // 메뉴 밑 슬라이딩 인디케이터 스타일 및 Ref
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
   const navRefs = useRef({});
 
-  // 3. 랜더링/스크롤 이벤트 처리
+  /* =========================================================
+     3. Effect 처리 (초기화, 스크롤 감지, 슬라이더 계산)
+     ========================================================= */
+
+  // 랜더링 초기화 및 스크롤 이벤트 등록
   useEffect(() => {
-    const randomNav =
+    // 렌더링 시 무작위 메뉴 선발
+    setNavMenu(
       DYNAMIC_NAV_OPTIONS[
         Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
-      ];
-    const randomUtill =
+      ],
+    );
+    setUtillMenu(
       DYNAMIC_UTILL_OPTIONS[
         Math.floor(Math.random() * DYNAMIC_UTILL_OPTIONS.length)
-      ];
-
-    setNavMenu(randomNav);
-    setUtillMenu(randomUtill);
+      ],
+    );
 
     const handleScroll = () => {
       const totalHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-
       if (totalHeight > 0) {
-        const currentProgress = (window.scrollY / totalHeight) * 100;
-        setScrollProgress(currentProgress);
+        setScrollProgress((window.scrollY / totalHeight) * 100);
       }
-
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // activeMenu 변경 시 파란 박스(Indicator) 위치 부드럽게 재계산
+  // 활성화된 메뉴 버튼 위치 추적하여 인디케이터(파란 박스) 위치 재계산
   useEffect(() => {
     if (activeMenu && navRefs.current[activeMenu]) {
       const el = navRefs.current[activeMenu];
@@ -170,22 +305,31 @@ export default function Header() {
     }
   }, [activeMenu]);
 
-  // 메뉴 버튼 클릭 토글 핸들러
+  /* =========================================================
+     4. 이벤트 핸들러 함수
+     ========================================================= */
+
+  // 메인 메뉴 버튼 토글 핸들러
   const handleMenuClick = (menuName) => {
-    setIsSearchOpen(false); // 검색창 열려있으면 닫기
-    if (activeMenu === menuName) {
-      setActiveMenu(null);
-    } else {
-      setActiveMenu(menuName);
-    }
+    setIsSearchOpen(false); // 검색창 활성화 시 닫기
+    setActiveMenu((prev) => (prev === menuName ? null : menuName));
   };
 
-  // 돋보기 버튼 클릭 핸들러 (신규 추가)
+  // 돋보기 버튼 토글 핸들러
   const handleSearchToggle = () => {
-    setActiveMenu(null); // 메가드롭다운 열려있으면 닫기
+    setActiveMenu(null); // 메가드롭다운 활성화 시 닫기
     setIsSearchOpen((prev) => !prev);
   };
 
+  // 모든 드롭다운 및 모달 닫기
+  const handleCloseAll = () => {
+    setActiveMenu(null);
+    setIsSearchOpen(false);
+  };
+
+  /* =========================================================
+     5. JSX 랜더링 구조
+     ========================================================= */
   return (
     <>
       <header
@@ -193,7 +337,7 @@ export default function Header() {
           activeMenu || isSearchOpen ? styles.menuActive : ""
         }`}
       >
-        {/* 드롭다운/검색창이 열려있지 않을 때만 상단 진행바 노출 */}
+        {/* 스크롤 진행바 (메뉴나 검색창이 열려있지 않을 때만 표시) */}
         {!activeMenu && !isSearchOpen && (
           <div
             className={styles.progressBar}
@@ -201,9 +345,8 @@ export default function Header() {
           />
         )}
 
-        {/* 중앙 정렬 및 가로 최대 폭 제한 상자 */}
         <div className={styles.headerInner}>
-          {/* 1. [좌측 그룹] 로고 + 메인 네비게이션 */}
+          {/* [좌측] 로고 + 메인 네비게이션 영역 */}
           <div className={styles.leftBox}>
             <div className={styles.logoArea}>
               <h1 className={styles.logoHeading}>
@@ -241,22 +384,25 @@ export default function Header() {
                   </a>
                 </li>
 
-                {["구매/이벤트", "서비스/멤버십", "디지털/고객지원", "브랜드"].map(
-                  (menuName) => (
-                    <li key={menuName}>
-                      <button
-                        type="button"
-                        ref={(el) => (navRefs.current[menuName] = el)}
-                        className={`${styles.navBtn} ${
-                          activeMenu === menuName ? styles.activeNavBtn : ""
-                        }`}
-                        onClick={() => handleMenuClick(menuName)}
-                      >
-                        {menuName}
-                      </button>
-                    </li>
-                  )
-                )}
+                {[
+                  "구매/이벤트",
+                  "서비스/멤버십",
+                  "디지털/고객지원",
+                  "브랜드",
+                ].map((menuName) => (
+                  <li key={menuName}>
+                    <button
+                      type="button"
+                      ref={(el) => (navRefs.current[menuName] = el)}
+                      className={`${styles.navBtn} ${
+                        activeMenu === menuName ? styles.activeNavBtn : ""
+                      }`}
+                      onClick={() => handleMenuClick(menuName)}
+                    >
+                      {menuName}
+                    </button>
+                  </li>
+                ))}
 
                 <li>
                   <a href={navMenu.url} className={styles.navLink}>
@@ -264,13 +410,13 @@ export default function Header() {
                   </a>
                 </li>
 
-                {/* 클릭한 메뉴 따라 슬라이딩 이동하는 파란 박스 인디케이터 */}
+                {/* 슬라이딩 인디케이터 하이라이트 박스 */}
                 <span className={styles.navIndicator} style={indicatorStyle} />
               </ul>
             </nav>
           </div>
 
-          {/* 2. [우측] 유틸리티 영역 */}
+          {/* [우측] 유틸리티 영역 (언어, 로그인, 검색, 전체메뉴) */}
           <div className={styles.utillArea}>
             <a href={utillMenu.url} className={styles.evLink}>
               {utillMenu.before}
@@ -278,27 +424,46 @@ export default function Header() {
               {utillMenu.after}
             </a>
 
-            {/* KR 언어 드롭다운 래퍼 */}
+            {/* KR 언어 선택 드롭다운 */}
             <div className={styles.langWrapper}>
               <button type="button" className={styles.langBtn}>
                 KR <span className={styles.arrowIcon}>▾</span>
               </button>
-
               <div className={styles.langDropdown}>
                 <ul className={styles.dropdownList}>
-                  <li><a href="#none" className={styles.langLink}>EN</a></li>
-                  <li><a href="#none" className={styles.langLink}>CN</a></li>
-                  <li><a href="#none" className={styles.langLink}>월드와이드</a></li>
-                  <li><a href="#none" className={styles.langLink}>상용글로벌</a></li>
+                  <li>
+                    <a href="#none" className={styles.langLink}>
+                      EN
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#none" className={styles.langLink}>
+                      CN
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#none" className={styles.langLink}>
+                      월드와이드
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#none" className={styles.langLink}>
+                      상용글로벌
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
 
             <span className={styles.divider}></span>
 
-            {/* 로그인 아이콘 드롭다운 래퍼 */}
+            {/* 로그인 아이콘 드롭다운 */}
             <div className={styles.loginWrapper}>
-              <button type="button" className={styles.iconBtn} aria-label="로그인">
+              <button
+                type="button"
+                className={styles.iconBtn}
+                aria-label="로그인"
+              >
                 <svg
                   width="30"
                   height="30"
@@ -313,16 +478,23 @@ export default function Header() {
                   <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" />
                 </svg>
               </button>
-
               <div className={styles.loginDropdown}>
                 <ul className={styles.dropdownList}>
-                  <li><a href="#none" className={styles.loginLink}>개인 로그인{"\u00A0\u00A0\u00A0"}&gt;</a></li>
-                  <li><a href="#none" className={styles.loginLink}>법인 로그인{"\u00A0\u00A0\u00A0"}&gt;</a></li>
+                  <li>
+                    <a href="#none" className={styles.loginLink}>
+                      개인 로그인{"\u00A0\u00A0\u00A0"}&gt;
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#none" className={styles.loginLink}>
+                      법인 로그인{"\u00A0\u00A0\u00A0"}&gt;
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
 
-            {/* 돋보기 버튼 (검색창 토글) (수정) */}
+            {/* 돋보기 (검색창 토글) 버튼 */}
             <button
               type="button"
               className={styles.iconBtn}
@@ -344,13 +516,14 @@ export default function Header() {
               </svg>
             </button>
 
-            {/* 작대기 버튼 (전체메뉴 링크 이동) (수정) */}
+            {/* 전체메뉴 (링크 이동) 버튼 */}
             <button
               type="button"
               className={styles.iconBtn}
               aria-label="전체메뉴"
               onClick={() => {
-                window.location.href = "https://www.hyundai.com/kr/ko/e/menu-list";
+                window.location.href =
+                  "https://www.hyundai.com/kr/ko/e/menu-list";
               }}
             >
               <svg
@@ -370,10 +543,9 @@ export default function Header() {
           </div>
         </div>
 
-        {/* 돋보기 클릭 시 펼쳐지는 검색 레이어 패널 (신규 추가) */}
+        {/* 🔍 검색 레이어 패널 */}
         {isSearchOpen && (
           <div className={styles.searchLayer}>
-            {/* 상단 검색어 입력바 영역 */}
             <div className={styles.searchBarContainer}>
               <div className={styles.searchInputBox}>
                 <input
@@ -398,14 +570,20 @@ export default function Header() {
                   className={styles.searchIconBtn}
                   aria-label="검색 실행"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#1c1c1c"
+                    strokeWidth="2"
+                  >
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                   </svg>
                 </button>
               </div>
 
-              {/* 우상단 ✕ 닫기 버튼 */}
               <button
                 type="button"
                 className={styles.searchCloseBtn}
@@ -416,23 +594,26 @@ export default function Header() {
               </button>
             </div>
 
-            {/* 하단 최근 검색어 및 인기 검색어 영역 */}
             <div className={styles.searchContentContainer}>
               <div className={styles.searchContentBox}>
-                {/* 좌측: 최근 검색어 */}
+                {/* 최근 검색어 구역 */}
                 <div className={styles.recentSearchSection}>
                   <div className={styles.searchSectionHeader}>
-                    <span className={styles.searchSectionTitle}>최근 검색어</span>
+                    <span className={styles.searchSectionTitle}>
+                      최근 검색어
+                    </span>
                     <button type="button" className={styles.clearHistoryBtn}>
                       검색기록 삭제
                     </button>
                   </div>
                 </div>
 
-                {/* 우측: 인기 검색어 Top 10 */}
+                {/* 인기 검색어 구역 */}
                 <div className={styles.popularSearchSection}>
                   <div className={styles.searchSectionHeader}>
-                    <span className={styles.searchSectionTitle}>인기 검색어 Top10</span>
+                    <span className={styles.searchSectionTitle}>
+                      인기 검색어 Top10
+                    </span>
                   </div>
                   <ul className={styles.popularList}>
                     {POPULAR_KEYWORDS.map((item, idx) => (
@@ -454,10 +635,9 @@ export default function Header() {
           </div>
         )}
 
-        {/* 대형 드롭다운 패널 영역 */}
+        {/* 🍔 대형 메가 드롭다운 패널 */}
         {activeMenu && MEGA_MENUS[activeMenu] && (
           <div className={styles.megaDropdown}>
-            {/* 우상단 ✕ 닫기 버튼 */}
             <button
               type="button"
               className={styles.megaCloseBtn}
@@ -468,14 +648,17 @@ export default function Header() {
             </button>
 
             <div className={styles.megaInner}>
-              {/* 카테고리별 그리드 노출 */}
               <div className={styles.megaGrid}>
                 {MEGA_MENUS[activeMenu].categories.map((cat, idx) => (
                   <div key={idx} className={styles.megaRow}>
                     <div className={styles.categoryTitle}>{cat.title}</div>
                     <div className={styles.categoryItems}>
                       {cat.items.map((item, itemIdx) => (
-                        <a key={itemIdx} href="#none" className={styles.megaLink}>
+                        <a
+                          key={itemIdx}
+                          href="#none"
+                          className={styles.megaLink}
+                        >
                           {item}
                         </a>
                       ))}
@@ -484,7 +667,7 @@ export default function Header() {
                 ))}
               </div>
 
-              {/* 하단 공통 프로모션 이벤트 배너 (3개 카드) */}
+              {/* 하단 프로모션 배너 구역 */}
               <div className={styles.megaBannerArea}>
                 <div className={styles.bannerCard}>
                   <div className={styles.bannerThumb}>📱</div>
@@ -527,15 +710,9 @@ export default function Header() {
         )}
       </header>
 
-      {/* 드롭다운 / 검색창 바깥 영역을 어둡게 만들어주는 딤 오버레이 패널 */}
+      {/* 배경 어둡게 오버레이 (드롭다운 또는 검색창 열렸을 때) */}
       {(activeMenu || isSearchOpen) && (
-        <div
-          className={styles.backdrop}
-          onClick={() => {
-            setActiveMenu(null);
-            setIsSearchOpen(false);
-          }}
-        />
+        <div className={styles.backdrop} onClick={handleCloseAll} />
       )}
     </>
   );
