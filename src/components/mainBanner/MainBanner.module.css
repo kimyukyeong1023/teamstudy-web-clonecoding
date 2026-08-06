@@ -12,12 +12,9 @@
   
 }
 .titleWrap{
-        
-/* 처음에는 오른쪽 바깥 */
-    transform: translateX(120%);
+    overflow: hidden;
 
-    /* transform이 바뀔 때 1초 동안 움직임 */
-    transition: transform 2s ease;
+
 }
 
 .titleBox{
@@ -25,9 +22,18 @@
 
     padding: 0 70px;
 
-    
+    /* 처음에는 오른쪽 바깥 */
+    transform: translateX(120%);
+
+    /* transform이 바뀔 때 1초 동안 움직임 */
+    transition: transform 2s ease;
 
     
+}
+.titleBox.showT{
+    transform: translateX(0);
+
+
 }
 .titleBox > h3{
     height: 81px;

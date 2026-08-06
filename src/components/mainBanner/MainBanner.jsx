@@ -51,7 +51,7 @@ const bannerImages = [
 
   useEffect(()=>{
     if(isMoving){
-    let intervalId =setInterval(nextBanner,3000);
+    let intervalId =setInterval(nextBanner,4000);
       // 바깥 위치가 화면에 적용된 다음 안으로 이동
     setTimeout(() => {
         setShow(true);
@@ -68,11 +68,13 @@ const bannerImages = [
   return (
     <div className={styles.mianWrap}>
       <div className={styles.titleWrap}>
-      <div className={`${styles.titleBox}  ${show ? styles.show : ""}`}>
-        <h3>{curBanner.name}</h3>
-        <p>{curBanner.description}</p>
+        <div className={`${styles.titleBox}  ${show ? styles.showT : ""}`}
+              key={imgIdx}
+>
+          <h3>{curBanner.name}</h3>
+          <p>{curBanner.description}</p>
 
-      </div>
+        </div>
       </div>
       <div className={styles.bannerWrap}> 
         <img className={`${styles.bannerImg} ${show ? styles.show : ""}`}
