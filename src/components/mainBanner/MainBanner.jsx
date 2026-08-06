@@ -33,14 +33,16 @@ const bannerImages = [
   let [imgIdx,setImgIdx]= useState(0);
   let curBanner=bannerImages[imgIdx];
   let [isMoving,setIsMoving]=useState(true);
+  let [isHovered,setIsHovered] =useState(false);
 
   let [show,setShow]= useState(false);
+
   function nextBanner(){
     setShow(false);
 
     setImgIdx((imgIdx)=>{
       
-      return (imgIdx+1)%4;
+      return (imgIdx+1)%bannerImages.length;
     });
       // 바깥 위치가 화면에 적용된 다음 안으로 이동
     setTimeout(() => {
@@ -49,30 +51,83 @@ const bannerImages = [
 
   }
 
+
   useEffect(()=>{
-    if(isMoving){
-    let intervalId =setInterval(nextBanner,4000);
+    if(!isMoving|| isHovered){
+       return;
+
+    }else {
+          let intervalId =setInterval(nextBanner,4000);
       // 바깥 위치가 화면에 적용된 다음 안으로 이동
     setTimeout(() => {
         setShow(true);
     }, 50);
     
     return ()=>{clearInterval(intervalId)};
-    }else {
-      return;
+     
     }
-  },[isMoving])
+  },[isMoving,isHovered])
 
+  function indMinus(){
+    
+      setImgIdx((imgIdx)=>{
+         if (imgIdx === 0) {
+          return bannerImages.length - 1;
+        }
+        return --imgIdx;
+      });
+  }
+    function indPlus(){
+    
+      setImgIdx((imgIdx)=>{
+         if (imgIdx ===(bannerImages.length-1) ) {
+          return 0;
+        }
+        return ++imgIdx;
+      });
+  }
+  function preName(){
+    let preIdx= imgIdx;
+    if (imgIdx === 0) {
+          preIdx= bannerImages.length - 1;
+    }else{
+          preIdx=imgIdx-1;
+    }
+  
+    
+    return bannerImages[preIdx].name;
+
+  };
+    function nextName(){
+      let nextIdx= imgIdx;
+    if (imgIdx === (bannerImages.length - 1)) {
+          nextIdx= 0;
+    }else{
+          nextIdx=imgIdx+1;
+    }
+  
+    return bannerImages[nextIdx].name;
+    
+  };
+
+  function moveIdx(){
+
+  }
 
 
   return (
-    <div className={styles.mianWrap}>
+    <div className={styles.mianWrap}
+        onMouseEnter={()=>setIsHovered(true)}
+        onMouseLeave={()=>setIsHovered(false)}
+    >
       <div className={styles.titleWrap}>
         <div className={`${styles.titleBox}  ${show ? styles.showT : ""}`}
               key={imgIdx}
 >
-          <h3>{curBanner.name}</h3>
-          <p>{curBanner.description}</p>
+
+            <h3><span className={styles.textContent}>{curBanner.name}</span></h3>
+            <p><span className={styles.textContent}>{curBanner.description}</span></p>
+  
 
         </div>
       </div>
@@ -84,23 +139,41 @@ const bannerImages = [
           
         <div className={styles.bannermove}>    
           <div className={styles.bannermoveD}>
-            <button className={`${styles.bannerMoveBtn} ${styles.bannerBBtn}`}></button>
-            <span className={styles.BannerBNName}>이전차이름</span>
+            <button className={`${styles.bannerMoveBtn} ${styles.bannerBBtn}`}
+                onClick={indMinus}
+            ></button>
+            <span className={styles.BannerBNName}>
+              {preName()}
+            </span>
           </div> 
           <div className={styles.bannermoveD}>
-            <span className={styles.BannerBNName}>다음차이름</span>
-            <button className={`${styles.bannerMoveBtn} ${styles.bannerNBtn}`}></button>
+            <span className={styles.BannerBNName}>
+              {nextName()}
+            </span>
+            <button className={`${styles.bannerMoveBtn} ${styles.bannerNBtn}`}
+                  onClick={indPlus}></button>
           </div>
         </div> 
       </div>
       <div className={styles.listbar}>
         <ul className={styles.listBnt}>
-          <li><button></button></li>
-          <li><button></button></li>
-          <li><button></button></li>
-          <li><button></button></li>
+          <li><button
+          onClick={()=>setImgIdx(0)}
+          ></button></li>
+          <li><button
+          onClick={()=>setImgIdx(1)}>
+            </button></li>
+          <li><button
+          onClick={()=>setImgIdx(2)}>
+            </button></li>
+          <li><button
+          onClick={()=>setImgIdx(3)}>
+            </button></li>
         </ul>
-        <button className={styles.playBtn}></button>
+        <button className={`${styles.playBtn} 
+                          ${isMoving ? styles.pause : styles.play}`}
+                onClick={()=>{setIsMoving(!isMoving)}}
+        ></button>
       </div>
 
     </div>
