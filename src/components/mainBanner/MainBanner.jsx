@@ -110,9 +110,7 @@ const bannerImages = [
     
   };
 
-  function moveIdx(){
-
-  }
+  
 
 
   return (
