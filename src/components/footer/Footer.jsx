@@ -39,9 +39,21 @@ export default function Footer() {
   }
 
   return <><footer className={styles.footer}><nav className={styles.quickMenu} aria-label="주요 서비스 바로가기">
-    <button className={styles.arrow} onClick={() => setStartIndex(i => Math.max(0, i - 1))} disabled={startIndex === 0} aria-label="이전 메뉴">‹</button>
-    <ul className={styles.list}>{quickMenuItems.slice(startIndex, startIndex + VISIBLE_COUNT).map(item => <li className={styles.item} key={item.id}><button className={styles.link} onClick={() => openService(item)} aria-describedby={`quick-menu-tooltip-${item.id}`}><span className={styles.icon}><img src={item.icon} alt="" /></span><span className={styles.label}>{item.label}</span><span className={styles.tooltip} id={`quick-menu-tooltip-${item.id}`} role="tooltip">{item.label} 이동</span></button></li>)}</ul>
-    <button className={styles.arrow} onClick={() => setStartIndex(i => Math.min(last, i + 1))} disabled={startIndex === last} aria-label="다음 메뉴">›</button>
+    <div className={styles.menuRow}>
+      <button className={styles.arrow} onClick={() => setStartIndex(i => Math.max(0, i - 1))} disabled={startIndex === 0} aria-label="이전 메뉴">‹</button>
+      <ul className={styles.list}>{quickMenuItems.slice(startIndex, startIndex + VISIBLE_COUNT).map(item => <li className={styles.item} key={item.id}><button className={styles.link} onClick={() => openService(item)} aria-describedby={`quick-menu-tooltip-${item.id}`}><span className={styles.icon}><img src={item.icon} alt="" /></span><span className={styles.label}>{item.label}</span><span className={styles.tooltip} id={`quick-menu-tooltip-${item.id}`} role="tooltip">{item.label} 이동</span></button></li>)}</ul>
+      <button className={styles.arrow} onClick={() => setStartIndex(i => Math.min(last, i + 1))} disabled={startIndex === last} aria-label="다음 메뉴">›</button>
+    </div>
+    <input
+      className={styles.scrollbar}
+      type="range"
+      min="0"
+      max={last}
+      step="1"
+      value={startIndex}
+      onChange={(event) => setStartIndex(Number(event.target.value))}
+      aria-label="서비스 메뉴 가로 스크롤"
+    />
   </nav></footer>{activeService && <ServiceBrowser service={activeService} onClose={closeService} />}</>
 }
 
@@ -62,16 +74,21 @@ function ServiceBrowser({ service, onClose }) {
           <button className={styles.close} onClick={onClose} aria-label="창 닫기">×</button>
         </header>
         <div className={styles.page}>
-          <nav className={styles.siteNav}><strong>HYUNDAI</strong><span>모델</span><span>구매/이벤트</span><span>서비스/멤버십</span></nav>
+          <nav className={styles.siteNav} aria-label="현대자동차 사이트 메뉴">
+            <strong className={styles.brand}><i aria-hidden="true">H</i> HYUNDAI</strong>
+            <div className={styles.navLinks}><span>모델</span><span className={styles.currentNav}>구매/이벤트</span><span>서비스/멤버십</span><span>디지털/고객지원</span><span>브랜드</span><span>Shop</span></div>
+            <div className={styles.utilities}><span>KR⌄</span><b aria-hidden="true">♙</b><b aria-hidden="true">⌕</b><b aria-hidden="true">☰</b></div>
+          </nav>
+          <div className={styles.breadcrumb}>홈 <b>›</b> 구매/이벤트 <b>›</b> 구매 <b>›</b> <strong>{service.eyebrow}</strong></div>
           <div className={styles.hero}>
             <div className={styles.copy}>
-              <p>{service.eyebrow}</p><h2 id="service-title">{service.title}</h2><div className={styles.rule} />
+              <p>{service.eyebrow}</p>
+              <h2 id="service-title">{service.title}</h2>
               <span>{service.description}</span>
-              <button onClick={() => window.alert(`${service.label} 연습 화면입니다.`)}>{service.action} <b>→</b></button>
             </div>
-            <div className={styles.visual}><img src={service.icon} alt="" /><i /><i /></div>
           </div>
-          <div className={styles.options}>{service.fields.map((field, index) => <button key={field}><small>0{index + 1}</small><strong>{field}</strong><span>→</span></button>)}</div>
+          <div className={styles.categoryBar}><strong>{service.label}</strong>{service.fields.map((field, index) => <button className={index === 0 ? styles.activeCategory : ''} key={field}>{field}</button>)}<button className={styles.compare}>○ 전체 보기</button></div>
+          <div className={styles.options}>{service.fields.map((field, index) => <button key={field}><small>STEP 0{index + 1}</small><img src={service.icon} alt="" /><strong>{field}</strong><span>자세히 보기&nbsp; →</span></button>)}</div>
         </div>
       </section>
     </div>
