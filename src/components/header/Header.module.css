@@ -1,13 +1,68 @@
-/* 상단 헤더 바탕 배경 */
+/* =========================================================
+   1. 헤더 기본 레이아웃 & 스크롤 상태
+   ========================================================= */
+
+/* 상단 고정 헤더 프레임 컨테이너 */
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   width: 100%;
-  height: 80px; /* 실제 현대차 헤더 높이 */
-  /* background-color: #f6f6f6; */
-  /* border-bottom: 1px solid #e5e5e5; */
+  height: 80px;
   box-sizing: border-box;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* 100% 유동형 내부 컨테이너 (패딩을 12vw로 확장하여 로고와 유틸리티를 안쪽으로 수축) */
+/* 화면 스크롤 내려갔을 때 배경 흰색 전환 및 하단 그림자 */
+.scrolled {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 드롭다운/검색창 열렸을 때 상단 헤더 강제 흰색 배경 */
+.menuActive {
+  background-color: #ffffff !important;
+}
+
+/* 헤더 활성화 상태일 때 최하단 파란 경계선 */
+.menuActive::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #002c5f;
+  z-index: 1001;
+}
+
+/* 언어/로그인 드롭다운 호버 시 헤더 배경 흰색 유지 */
+.header:has(.langWrapper:hover),
+.header:has(.loginWrapper:hover) {
+  background-color: #ffffff;
+}
+
+/* 헤더 최상단 실시간 스크롤 위치 프로그레스 바 */
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4.5px;
+  background-color: #007fa8;
+  transition: width 0.3s ease-out;
+  z-index: 1010;
+}
+
+/* =========================================================
+   2. 헤더 내부 요소 (로고 및 메인 네비게이션)
+   ========================================================= */
+
+/* 헤더 콘텐츠 내부 여백 및 좌우 배치 영역 */
 .headerInner {
   width: 100%;
   height: 100%;
@@ -18,23 +73,26 @@
   box-sizing: border-box;
 }
 
-/* 로고와 메인 메뉴를 함께 묶은 좌측 그룹 */
+/* 로고와 메뉴 항목들을 묶는 좌측 컨테이너 */
 .leftBox {
   display: flex;
   align-items: center;
   gap: 7vw;
+  height: 100%;
 }
 
-/* 로고 영역 */
+/* 로고 정렬 wrapper */
 .logoArea {
   display: flex;
   align-items: center;
 }
 
+/* H1 로고 헤딩 태그 마진 정돈 */
 .logoHeading {
   margin-left: 40px;
 }
 
+/* 로고 클릭 전용 버튼 */
 .logoBtn {
   display: flex;
   align-items: center;
@@ -45,37 +103,43 @@
   padding: 0;
 }
 
-/* H 마크 SVG 아이콘 크기 조정 */
+/* 현대자동차 SVG 심볼 아이콘 */
 .logoIcon {
   display: block;
-  width: 46px; 
+  width: 46px;
   height: 24px;
 }
 
-/* HYUNDAI 텍스트 스타일 */
+/* 현대자동차 브랜드 텍스트 타포그래피 */
 .logoText {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-weight: 700;
   font-size: 24px;
   color: #002c5f;
   letter-spacing: 0.8px;
 }
 
-/* 메인 네비게이션 */
+/* 메인 네비게이션 감싸는 nav 태그 */
 .mainNav {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
+/* 메인 메뉴 가로 배열 리스트 */
 .navList {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 2.4vw; /* 메뉴 항목 간 간격 */
+  gap: 2.4vw;
   list-style: none;
   margin-left: 20px;
   padding: 0;
+  height: 100%;
 }
 
+/* 네비게이션 기본 링크 및 버튼 텍스트 스타일 */
 .navLink,
 .navBtn {
   background: none;
@@ -87,16 +151,45 @@
   text-decoration: none;
   padding: 0;
   white-space: nowrap;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: font-weight 0.15s ease;
 }
 
-/* 우측 유틸리티 영역 */
+/* 활성화된 메뉴 버튼 강조 텍스트 */
+.activeNavBtn {
+  font-weight: 700;
+  color: #002c5f;
+}
+
+/* 메뉴 활성화 시 이동하는 파란색 하단 슬라이더 바 */
+.navIndicator {
+  position: absolute;
+  bottom: 0;
+  height: 3.5px;
+  background-color: #002c5f;
+  transition:
+    left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1002;
+}
+
+/* =========================================================
+   3. 우측 유틸리티 영역 (언어 선택 & 로그인 드롭다운)
+   ========================================================= */
+
+/* 우측 유틸리티 아이콘 및 링크 묶음 영역 */
 .utillArea {
   display: flex;
   align-items: center;
   gap: 1.2vw;
-  margin-right: 80px;
+  margin-right: 50px;
 }
 
+/* 우측 이벤트/프로모션 텍스트 링크 */
 .evLink {
   font-size: 16px;
   font-weight: 400;
@@ -109,12 +202,12 @@
   font-weight: 600;
 }
 
+/* KR 언어 선택 버튼 */
 .langBtn {
-  display: inline-flex;  /* KR과 화살표를 한 줄로 가로 정렬 */
-  align-items: center;   /* 세로 중앙 정렬 */
-  gap: 4px;              /* KR 글자와 화살표 사이 간격 */
-  white-space: nowrap;   /* ★ 핵심: 너비가 좁아져도 절대 줄바꿈 안 됨 */
-
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
   background: none;
   border: none;
   font-size: 15px;
@@ -125,16 +218,16 @@
   padding-top: 4px;
 }
 
-/* 세로 구분선 */
+/* 유틸리티 영역 가로 세로 구분선 */
 .divider {
   display: inline-block;
   width: 1px;
-  height: 20px;
-  background-color: #d0d0d0;
-  margin: 0 4px;
+  height: 15px;
+  background-color: #aaaaaa;
+  margin: 0 2px;
 }
 
-/* 로그인, 검색, 전체메뉴 아이콘 버튼 */
+/* 공통 우측 SVG 아이콘 버튼 (로그인, 검색, 전체메뉴) */
 .iconBtn {
   display: flex;
   align-items: center;
@@ -144,4 +237,658 @@
   cursor: pointer;
   padding: 0;
   color: #000000;
+}
+
+/* 언어 및 로그인 호버 드롭다운 상위 wrapper */
+.langWrapper,
+.loginWrapper {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 언어 선택 드롭다운 화살표 호버 회전 */
+.langWrapper:hover .arrowIcon {
+  transform: rotate(180deg);
+}
+
+/* 언어 및 로그인 미니 드롭다운 박스 공통 */
+.langDropdown,
+.loginDropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+  z-index: 1005;
+  white-space: nowrap;
+}
+
+.loginDropdown {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+.langWrapper:hover .langDropdown,
+.loginWrapper:hover .loginDropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 미니 드롭다운 리스트 */
+.dropdownList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 언어 드롭다운 텍스트 링크 */
+.langLink {
+  color: #555555;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  transition:
+    color 0.15s ease,
+    font-weight 0.15s ease;
+}
+
+.langLink:hover {
+  color: #002c5f;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: #002c5f;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+/* 로그인 드롭다운 텍스트 링크 */
+.loginLink {
+  color: #002c5f;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  transition:
+    color 0.15s ease,
+    font-weight 0.15s ease;
+}
+
+.loginLink:hover {
+  color: #002c5f;
+  font-weight: 500;
+}
+
+/* =========================================================
+   4. 대형 드롭다운 메뉴 스타일 (Mega Dropdown)
+   ========================================================= */
+
+/* 대형 메가 드롭다운 전체 패널 */
+.megaDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f6f3f2;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  padding: 0 11vw 24px;
+  box-sizing: border-box;
+}
+
+/* 드롭다운/검색창 열렸을 때 화면 어둡게 처리하는 딤 배경 오버레이 */
+.backdrop {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 998;
+}
+
+/* 메가 드롭다운 우측 닫기 버튼 */
+.megaCloseBtn {
+  position: absolute;
+  top: 18px;
+  right: 11vw;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666666;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.15s ease;
+  z-index: 10;
+}
+
+.megaCloseBtn:hover {
+  color: #000000;
+}
+
+/* 메가 드롭다운 내부 수직 배치 wrapper */
+.megaInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* 카테고리 그리드 레이아웃 그룹 */
+.megaGrid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 40px 0 16px 0;
+}
+
+/* 카테고리 타이틀과 세부 항목 구분용 세로 선 */
+.megaGrid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 280px;
+  width: 1px;
+  background-color: #e0dad3;
+}
+
+/* 카테고리 1개 줄(행) 레이아웃 */
+.megaRow {
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* 좌측 대표 카테고리 제목 텍스트 */
+.categoryTitle {
+  width: 300px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c1c1c;
+  flex-shrink: 0;
+  padding: 6px 16px 6px 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 우측 5열 그리드 세부 메뉴 목록 */
+.categoryItems {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px 20px;
+  flex: 1;
+  padding-left: 30px;
+  align-items: center;
+}
+
+/* 세부 메뉴 개별 링크 텍스트 */
+.megaLink {
+  font-size: 14px;
+  color: #555555;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+.megaLink:hover {
+  color: #007fa8;
+  font-weight: 400;
+}
+
+/* 메가 드롭다운 하단 프로모션 배너 카드 가로 배치 구역 */
+.megaBannerArea {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid #e0dad3;
+  margin-left: -11vw;
+  margin-right: -11vw;
+  padding-left: 11vw;
+  padding-right: 11vw;
+  padding-top: 36px;
+  padding-bottom: 36px;
+}
+
+/* 프로모션 개별 이벤트 카드 박스 */
+.bannerCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  padding: 50px 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* 프로모션 이벤트 썸네일 이모지 정렬 */
+.bannerThumb {
+  font-size: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 20px;
+  border-radius: 4px;
+}
+
+/* 프로모션 이벤트 텍스트 정보 수직 정렬 */
+.bannerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* 프로모션 카드 이벤트 제목 */
+.bannerTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1c1c1c;
+  margin-left: 50px;
+  text-align: center;
+}
+
+/* 프로모션 카드 이벤트 기간 텍스트 */
+.bannerDate {
+  font-size: 13px;
+  color: #888888;
+  text-align: center;
+}
+
+/* =========================================================
+   5. 🔍 검색 레이어 스타일 (Search Layer)
+   ========================================================= */
+
+/* 상단 검색 패널 전체 영역 */
+.searchLayer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f5f3ee;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 검색 입력 필드 세로 중앙 정렬 상단 컨테이너 */
+.searchBarContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 11vw;
+  border-bottom: 1px solid #e0dad3;
+}
+
+/* 검색 인풋 + 돋보기 아이콘 감싸는 흰색 박스 */
+.searchInputBox {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+/* 검색어 입력 input 필드 */
+.searchInput {
+  flex: 1;
+  height: 44px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1c1c1c;
+  background: transparent;
+}
+
+.searchInput::placeholder {
+  color: #888888;
+}
+
+/* 입력 검색어 1자 이상 시 노출되는 지우기(X) 버튼 */
+.searchClearBtn {
+  background: #aaaaaa;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 0;
+}
+
+/* 검색 실행 돋보기 버튼 */
+.searchIconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 검색 레이어 우측 상단 닫기(X) 버튼 */
+.searchCloseBtn {
+  position: absolute;
+  right: 11vw;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #666666;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+
+.searchCloseBtn:hover {
+  color: #000000;
+}
+
+/* 최근/인기 검색어 콘텐츠 정렬 영역 */
+.searchContentContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #f5f3ee;
+  padding: 24px 0 30px;
+}
+
+/* 검색 콘텐츠 내부 흰색 통합 카드 */
+.searchContentBox {
+  display: flex;
+  width: 600px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* 최근 검색어 왼쪽 컬럼 구역 */
+.recentSearchSection {
+  flex: 1;
+  padding: 20px 24px;
+  border-right: 1px solid #eeeeee;
+  background-color: #ffffff;
+}
+
+/* 인기 검색어 오른쪽 컬럼 구역 */
+.popularSearchSection {
+  flex: 1;
+  padding: 20px 24px 12px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+/* 검색 섹션 상단 헤더 정렬 */
+.searchSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* 검색 섹션 소제목 텍스트 */
+.searchSectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+/* 검색기록 삭제 버튼 */
+.clearHistoryBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #888888;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clearHistoryBtn:hover {
+  text-decoration: underline;
+}
+
+/* 인기 검색어 Top 10 순위 리스트 */
+.popularList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popularItem {
+  font-size: 13px;
+}
+
+.popularLink {
+  color: #555555;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.popularLink:hover {
+  color: #007fa8;
+  font-weight: 500;
+}
+
+/* 자동 완성 끄기 하단 푸터 영역 */
+.autoCompleteFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.autoCompleteBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #888888;
+  cursor: pointer;
+  padding: 0;
+}
+
+.autoCompleteBtn:hover {
+  color: #1c1c1c;
+}
+
+/* =========================================================
+   6. 반응형 미디어 쿼리 (Media Queries)
+   ========================================================= */
+
+@media (max-width: 1300px) {
+
+  /* 태블릿/노트북 해상도 헤더 전체 좌우 여백 축소 */
+  .headerInner {
+    padding: 0 2vw;
+  }
+
+  /* 로고 외부 마진 제거 */
+  .logoHeading {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* 좌측 로고와 네비게이션 간격 조절 */
+  .leftBox {
+    gap: 6vw;
+  }
+
+  /* 네비게이션 간격 조절 */
+  .navList {
+    margin-left: 0;
+    gap: 1.2vw;
+  }
+
+  /* 우측 유틸리티 영역 여백 조절 */
+  .utillArea {
+    margin-right: 0;
+    gap: 1.5vw;
+  }
+
+  /* 반응형 대형 드롭다운 스크롤 및 고정 규격 */
+  .megaDropdown {
+    padding: 20px 3vw 30px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .megaCloseBtn {
+    top: 16px;
+    right: 2vw;
+    font-size: 20px;
+  }
+
+  .megaBannerArea {
+    margin-left: -3vw;
+    margin-right: -3vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+
+  .megaRow {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .categoryTitle {
+    width: 170px;
+    font-size: 15px;
+    padding-top: 2px;
+  }
+
+  .megaGrid::before {
+    left: 170px;
+  }
+
+  .categoryItems {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding-left: 40px;
+    gap: 12px 12px;
+    align-items: start;
+  }
+}
+
+@media (max-width: 1100px) {
+
+  /* 소형 태블릿 모바일 해상도 헤더 높이 축소 */
+  .header {
+    height: 65px;
+  }
+
+  /* 텍스트 로고 숨김 처리 (아이콘만 유지) */
+  .logoText {
+    display: none;
+  }
+
+  .logoHeading {
+    margin-left: 0;
+  }
+
+  .headerInner {
+    padding: 0 20px;
+  }
+
+  .leftBox {
+    gap: 140px;
+  }
+
+  .navList {
+    margin-left: 0;
+    gap: 20px;
+  }
+
+  .utillArea {
+    margin-left: 35px;
+    gap: 12px;
+  }
+
+  .navLink,
+  .navBtn,
+  .evLink,
+  .langBtn {
+    font-size: 12px;
+  }
+
+  .megaDropdown {
+    top: 65px;
+    padding: 16px 20px;
+    max-height: calc(100vh - 65px);
+    overflow-y: auto;
+  }
+
+  .megaCloseBtn {
+    right: 20px;
+    top: 14px;
+  }
+
+  .megaGrid {
+    padding: 10px 0;
+  }
+
+  .megaBannerArea {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 14px;
+    gap: 10px;
+  }
+
+  .categoryTitle {
+    width: 140px;
+    font-size: 13px;
+  }
+
+  .megaGrid::before {
+    left: 140px;
+  }
+
+  .categoryItems {
+    padding-left: 14px;
+    gap: 10px 10px;
+  }
+
+  .megaLink {
+    font-size: 12px;
+  }
+
+  .bannerCard {
+    padding: 8px 12px;
+  }
+
+  .bannerTitle {
+    font-size: 11px;
+  }
 }
