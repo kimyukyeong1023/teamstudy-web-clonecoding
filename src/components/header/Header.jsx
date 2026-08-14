@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Header.module.css";
 
+// 분리한 조각 단위 자식 컴포넌트 불러오기
+import HeaderLogo from "./components/HeaderLogo";
+import MainNav from "./components/MainNav";
+import UtillNav from "./components/UtillNav";
+import MegaDropdown from "./components/MegaDropdown";
+import SearchLayer from "./components/SearchLayer";
+
 /* =========================================================
    1. 외부 설정 데이터 (GNB 메뉴 및 키워드 데이터 구조)
    ========================================================= */
 
-// 페이지 새로고침 시 메인 네비게이션 끝에 랜덤으로 노출될 메뉴 목록
+// 페이지 새로고침 시 메인 네비게이션 끝에 랜덤으로 노출될 메뉴 목록[cite: 1]
 const DYNAMIC_NAV_OPTIONS = [
   {
     name: "Shop",
@@ -21,7 +28,7 @@ const DYNAMIC_NAV_OPTIONS = [
   },
 ];
 
-// 페이지 새로고침 시 우측 유틸리티 영역에 랜덤으로 노출될 프로모션 텍스트
+// 페이지 새로고침 시 우측 유틸리티 영역에 랜덤으로 노출될 프로모션 텍스트[cite: 1]
 const DYNAMIC_UTILL_OPTIONS = [
   {
     before: "Hi, ",
@@ -49,7 +56,7 @@ const DYNAMIC_UTILL_OPTIONS = [
   },
 ];
 
-// 검색 레이어 내 실시간 인기 검색어 Top 10 목록
+// 검색 레이어 내 실시간 인기 검색어 Top 10 목록[cite: 1]
 const POPULAR_KEYWORDS = [
   "1위. 사양조회",
   "2위. 아반떼",
@@ -63,7 +70,7 @@ const POPULAR_KEYWORDS = [
   "10위. 현대 제네시스 셀렉션",
 ];
 
-// 카테고리별 대형 드롭다운(Mega Dropdown) 메뉴 세부 데이터
+// 카테고리별 대형 드롭다운(Mega Dropdown) 메뉴 세부 데이터[cite: 1]
 const MEGA_MENUS = {
   "구매/이벤트": {
     categories: [
@@ -234,25 +241,25 @@ const MEGA_MENUS = {
   },
 };
 
+/**
+ * [헤더 최상위 메인 컴포넌트]
+ * 전체 상태 관리(State), 스크롤 감지 및 조각 컴포넌트들의 조립을 담당합니다[cite: 1].
+ */
 export default function Header() {
-  /* =========================================================
-     2. 리액트 상태(State) 및 참조(Ref) 관리
-     ========================================================= */
-
-  // 동적 노출 메뉴 상태 (랜덤)
+  // 동적 노출 메뉴 상태 (랜덤)[cite: 1]
   const [navMenu, setNavMenu] = useState(DYNAMIC_NAV_OPTIONS[0]);
   const [utillMenu, setUtillMenu] = useState(DYNAMIC_UTILL_OPTIONS[0]);
 
-  // 페이지 스크롤 감지 및 진행률 퍼센트
+  // 페이지 스크롤 감지 및 진행률 퍼센트[cite: 1]
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 활성화된 메가 드롭다운 메뉴 및 검색 레이어 상태
+  // 활성화된 메가 드롭다운 메뉴 및 검색 레이어 상태[cite: 1]
   const [activeMenu, setActiveMenu] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // 메뉴 하단 슬라이딩 하이라이트 바 스타일 및 DOM 참조
+  // 메뉴 하단 슬라이딩 하이라이트 바 스타일 및 DOM 참조[cite: 1]
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     width: 0,
@@ -260,21 +267,17 @@ export default function Header() {
   });
   const navRefs = useRef({});
 
-  /* =========================================================
-     3. Effect 처리 (이벤트 리스너 및 애니메이션 동기화)
-     ========================================================= */
-
-  // 마운트 시 랜덤 메뉴 설정 및 스크롤 진행률 계산 리스너 등록
+  // 마운트 시 랜덤 메뉴 설정 및 스크롤 진행률 계산 리스너 등록[cite: 1]
   useEffect(() => {
     setNavMenu(
       DYNAMIC_NAV_OPTIONS[
-      Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
-      ],
+        Math.floor(Math.random() * DYNAMIC_NAV_OPTIONS.length)
+      ]
     );
     setUtillMenu(
       DYNAMIC_UTILL_OPTIONS[
-      Math.floor(Math.random() * DYNAMIC_UTILL_OPTIONS.length)
-      ],
+        Math.floor(Math.random() * DYNAMIC_UTILL_OPTIONS.length)
+      ]
     );
 
     const handleScroll = () => {
@@ -290,7 +293,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 활성화된 메뉴 위치 추적 -> 하단 인디케이터 바 위치 및 넓이 동적 계산
+  // 활성화된 메뉴 위치 추적 -> 하단 인디케이터 바 위치 및 넓이 동적 계산[cite: 1]
   useEffect(() => {
     if (activeMenu && navRefs.current[activeMenu]) {
       const el = navRefs.current[activeMenu];
@@ -304,39 +307,33 @@ export default function Header() {
     }
   }, [activeMenu]);
 
-  /* =========================================================
-     4. 사용자 상호작용 이벤트 핸들러
-     ========================================================= */
-
-  // 상단 네비게이션 메뉴 클릭 (드롭다운 토글)
+  // 상단 네비게이션 메뉴 클릭 (드롭다운 토글)[cite: 1]
   const handleMenuClick = (menuName) => {
     setIsSearchOpen(false);
     setActiveMenu((prev) => (prev === menuName ? null : menuName));
   };
 
-  // 우측 돋보기 아이콘 클릭 (검색 레이어 토글)
+  // 우측 돋보기 아이콘 클릭 (검색 레이어 토글)[cite: 1]
   const handleSearchToggle = () => {
     setActiveMenu(null);
     setIsSearchOpen((prev) => !prev);
   };
 
-  // 모달, 드롭다운, 검색창 등 모든 오버레이 닫기
+  // 모달, 드롭다운, 검색창 등 모든 오버레이 닫기[cite: 1]
   const handleCloseAll = () => {
     setActiveMenu(null);
     setIsSearchOpen(false);
   };
 
-  /* =========================================================
-     5. JSX 렌더링 구조
-     ========================================================= */
   return (
     <>
-      {/* 헤더 최상위 고정 레이아웃 컨테이너 */}
+      {/* 헤더 최상위 고정 레이아웃 컨테이너[cite: 1] */}
       <header
-        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${activeMenu || isSearchOpen ? styles.menuActive : ""
-          }`}
+        className={`${styles.header} ${isScrolled ? styles.scrolled : ""} ${
+          activeMenu || isSearchOpen ? styles.menuActive : ""
+        }`}
       >
-        {/* 상단 스크롤 위치 표시 프로그레스 바 */}
+        {/* 상단 스크롤 위치 표시 프로그레스 바[cite: 1] */}
         {!activeMenu && !isSearchOpen && (
           <div
             className={styles.progressBar}
@@ -344,382 +341,49 @@ export default function Header() {
           />
         )}
 
-        {/* 헤더 가로 콘텐츠 감싸는 내부 정렬 영역 */}
+        {/* 헤더 가로 콘텐츠 감싸는 내부 정렬 영역[cite: 1] */}
         <div className={styles.headerInner}>
-          {/* [좌측 그룹] 현대자동차 로고 + 메인 네비게이션 */}
           <div className={styles.leftBox}>
-            {/* 공식 로고 아이콘 및 타이틀 링크 */}
-            <div className={styles.logoArea}>
-              <h1 className={styles.logoHeading}>
-                <button
-                  type="button"
-                  className={styles.logoBtn}
-                  onClick={() => {
-                    window.location.href = "/";
-                  }}
-                >
-                  <svg
-                    width="48"
-                    height="22"
-                    viewBox="0 0 45 23"
-                    className={styles.logoIcon}
-                  >
-                    <path
-                      d="M22.29,22.83c12.31,0,22.29-5.11,22.29-11.42C44.59,5.11,34.61,0,22.29,0C9.98,0,0,5.11,0,11.41 C0,17.72,9.98,22.83,22.29,22.83z M26.49,17.23c-0.37,0.86-1.01,2.7-2.48,3.44c-0.44,0.22-0.99,0.33-1.49,0.34 c-0.11,0-0.19,0-0.22,0c-4.12,0-7.94-0.57-11.15-1.55c-0.03-0.01-0.1-0.04-0.12-0.05c-0.3-0.1-0.45-0.24-0.45-0.4 c0-0.15,0.08-0.26,0.18-0.36c0.04-0.05,0.11-0.1,0.2-0.18c0.74-0.62,2.97-2.23,7.17-3.84c1.47-0.56,3.31-1.26,5.25-1.67 C24.51,12.72,28.7,12.08,26.49,17.23z M37.75,5.72c0.08-0.14,0.19-0.25,0.38-0.27c0.1-0.01,0.25,0.02,0.46,0.15 c2.62,1.61,4.17,3.62,4.17,5.8c0,3.94-5.06,7.32-12.3,8.8c-0.47,0.09-0.77,0.09-0.88-0.03c-0.07-0.07-0.09-0.2,0-0.35 c0.05-0.08,0.1-0.15,0.19-0.27c3.94-4.65,6.94-11.5,7.8-13.48C37.64,5.95,37.7,5.81,37.75,5.72z M18.16,5.58 c0.37-0.86,1.01-2.7,2.48-3.43c0.45-0.22,0.99-0.33,1.49-0.34c0.11,0,0.19,0,0.22,0c4.12,0,7.94,0.57,11.15,1.55 c0.02,0.01,0.1,0.04,0.12,0.04c0.3,0.1,0.45,0.23,0.45,0.4c0,0.15-0.08,0.26-0.18,0.36c-0.05,0.04-0.11,0.1-0.2,0.18 c-0.74,0.62-2.97,2.23-7.17,3.84c-1.47,0.56-3.32,1.26-5.24,1.67C20.14,10.09,15.95,10.73,18.16,5.58z M14.12,2.61 c0.47-0.09,0.77-0.09,0.88,0.03c0.06,0.07,0.08,0.2,0,0.35c-0.05,0.08-0.1,0.16-0.19,0.27c-3.94,4.65-6.94,11.5-7.8,13.48 c-0.06,0.14-0.13,0.27-0.18,0.36c-0.08,0.14-0.18,0.26-0.37,0.27c-0.11,0.01-0.25-0.02-0.47-0.15 c-2.62-1.61-4.17-3.62-4.17-5.8C1.82,7.48,6.88,4.09,14.12,2.61z"
-                      fill="#002c5f"
-                    />
-                  </svg>
-                  <span className={styles.logoText}>HYUNDAI</span>
-                </button>
-              </h1>
-            </div>
-
-            {/* 주요 카테고리 메뉴 목록 */}
-            <nav className={styles.mainNav}>
-              <ul className={styles.navList}>
-                <li>
-                  <a
-                    href="https://www.hyundai.com/kr/ko/e/all-vehicles"
-                    className={styles.navLink}
-                  >
-                    모델
-                  </a>
-                </li>
-
-                {/* 메가 드롭다운 메뉴 바인딩 목록 */}
-                {[
-                  "구매/이벤트",
-                  "서비스/멤버십",
-                  "디지털/고객지원",
-                  "브랜드",
-                ].map((menuName) => (
-                  <li key={menuName}>
-                    <button
-                      type="button"
-                      ref={(el) => (navRefs.current[menuName] = el)}
-                      className={`${styles.navBtn} ${activeMenu === menuName ? styles.activeNavBtn : ""
-                        }`}
-                      onClick={() => handleMenuClick(menuName)}
-                    >
-                      {menuName}
-                    </button>
-                  </li>
-                ))}
-
-                {/* 랜덤 노출 메뉴 링크 */}
-                <li>
-                  <a href={navMenu.url} className={styles.navLink}>
-                    {navMenu.name}
-                  </a>
-                </li>
-
-                {/* 메뉴 이동 시 하단에 따라붙는 모션 하이라이트 인디케이터 */}
-                <span className={styles.navIndicator} style={indicatorStyle} />
-              </ul>
-            </nav>
+            {/* 로고 영역 조각 컴포넌트 */}
+            <HeaderLogo />
+            {/* 메인 네비게이션 조각 컴포넌트 */}
+            <MainNav
+              activeMenu={activeMenu}
+              handleMenuClick={handleMenuClick}
+              navMenu={navMenu}
+              navRefs={navRefs}
+              indicatorStyle={indicatorStyle}
+            />
           </div>
 
-          {/* [우측 그룹] 유틸리티 영역 (이벤트, 언어선택, 로그인, 검색, 전체메뉴) */}
-          <div className={styles.utillArea}>
-            {/* 프로모션 이벤트 텍스트 링크 */}
-            <a href={utillMenu.url} className={styles.evLink}>
-              {utillMenu.before}
-              <b>{utillMenu.bold}</b>
-              {utillMenu.after}
-            </a>
-
-            {/* 다국어 언어 변경 드롭다운 모달 */}
-            <div className={styles.langWrapper}>
-              <button type="button" className={styles.langBtn}>
-                KR <span className={styles.arrowIcon}>▾</span>
-              </button>
-              <div className={styles.langDropdown}>
-                <ul className={styles.dropdownList}>
-                  <li>
-                    <a href="#none" className={styles.langLink}>
-                      EN
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#none" className={styles.langLink}>
-                      CN
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#none" className={styles.langLink}>
-                      월드와이드
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#none" className={styles.langLink}>
-                      상용글로벌
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <span className={styles.divider}></span>
-
-            {/* 로그인 유형 선택 드롭다운 모달 */}
-            <div className={styles.loginWrapper}>
-              <button
-                type="button"
-                className={styles.iconBtn}
-                aria-label="로그인"
-              >
-                <svg
-                  width="30"
-                  height="30"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#1c1c1c"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="7" r="4" />
-                  <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" />
-                </svg>
-              </button>
-              <div className={styles.loginDropdown}>
-                <ul className={styles.dropdownList}>
-                  <li>
-                    <a href="#none" className={styles.loginLink}>
-                      개인 로그인{"\u00A0\u00A0\u00A0"}&gt;
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#none" className={styles.loginLink}>
-                      법인 로그인{"\u00A0\u00A0\u00A0"}&gt;
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* 통합 검색 패널 토글 버튼 */}
-            <button
-              type="button"
-              className={styles.iconBtn}
-              aria-label="검색"
-              onClick={handleSearchToggle}
-            >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#1c1c1c"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </button>
-
-            {/* 사이트 전체 메뉴 페이지 이동 버튼 */}
-            <button
-              type="button"
-              className={styles.iconBtn}
-              aria-label="전체메뉴"
-              onClick={() => {
-                window.location.href =
-                  "https://www.hyundai.com/kr/ko/e/menu-list";
-              }}
-            >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#1c1c1c"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              >
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="7" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
-          </div>
+          {/* 우측 유틸리티 영역 조각 컴포넌트 */}
+          <UtillNav
+            utillMenu={utillMenu}
+            handleSearchToggle={handleSearchToggle}
+          />
         </div>
 
-        {/* 통합 검색 상단 레이어 패널 */}
+        {/* 조건부 렌더링: 통합 검색 레이어 패널[cite: 1] */}
         {isSearchOpen && (
-          <div className={styles.searchLayer}>
-            {/* 검색어 입력창 구역 */}
-            <div className={styles.searchBarContainer}>
-              <div className={styles.searchInputBox}>
-                <input
-                  type="text"
-                  className={styles.searchInput}
-                  placeholder="검색어를 입력해주세요."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    className={styles.searchClearBtn}
-                    onClick={() => setSearchQuery("")}
-                    aria-label="지우기"
-                  >
-                    ✕
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className={styles.searchIconBtn}
-                  aria-label="검색 실행"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#1c1c1c"
-                    strokeWidth="2"
-                  >
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* 검색 레이어 닫기 버튼 */}
-              <button
-                type="button"
-                className={styles.searchCloseBtn}
-                onClick={() => setIsSearchOpen(false)}
-                aria-label="닫기"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* 최근 검색어 & 인기 검색어 콘텐츠 구역 */}
-            <div className={styles.searchContentContainer}>
-              <div className={styles.searchContentBox}>
-                {/* 좌측 최근 검색어 관리 영역 */}
-                <div className={styles.recentSearchSection}>
-                  <div className={styles.searchSectionHeader}>
-                    <span className={styles.searchSectionTitle}>
-                      최근 검색어
-                    </span>
-                    <button type="button" className={styles.clearHistoryBtn}>
-                      검색기록 삭제
-                    </button>
-                  </div>
-                </div>
-
-                {/* 우측 실시간 인기 검색어 목록 영역 */}
-                <div className={styles.popularSearchSection}>
-                  <div className={styles.searchSectionHeader}>
-                    <span className={styles.searchSectionTitle}>
-                      인기 검색어 Top10
-                    </span>
-                  </div>
-                  <ul className={styles.popularList}>
-                    {POPULAR_KEYWORDS.map((item, idx) => (
-                      <li key={idx} className={styles.popularItem}>
-                        <a href="#none" className={styles.popularLink}>
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className={styles.autoCompleteFooter}>
-                    <button type="button" className={styles.autoCompleteBtn}>
-                      자동 완성 끄기
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <SearchLayer
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            setIsSearchOpen={setIsSearchOpen}
+            popularKeywords={POPULAR_KEYWORDS}
+          />
         )}
 
-        {/* 대형 드롭다운 메뉴 (Mega Dropdown) 패널 */}
+        {/* 조건부 렌더링: 대형 드롭다운 메뉴 (Mega Dropdown) 패널[cite: 1] */}
         {activeMenu && MEGA_MENUS[activeMenu] && (
-          <div className={styles.megaDropdown}>
-            {/* 드롭다운 닫기 버튼 */}
-            <button
-              type="button"
-              className={styles.megaCloseBtn}
-              onClick={() => setActiveMenu(null)}
-              aria-label="닫기"
-            >
-              ✕
-            </button>
-
-            <div className={styles.megaInner}>
-              {/* 카테고리별 그리드 및 링크 출력 영역 */}
-              <div className={styles.megaGrid}>
-                {MEGA_MENUS[activeMenu].categories.map((cat, idx) => (
-                  <div key={idx} className={styles.megaRow}>
-                    <div className={styles.categoryTitle}>{cat.title}</div>
-                    <div className={styles.categoryItems}>
-                      {cat.items.map((item, itemIdx) => (
-                        <a
-                          key={itemIdx}
-                          href="#none"
-                          className={styles.megaLink}
-                        >
-                          {item}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* 하단 프로모션 이벤트 카드 배너 영역 */}
-              <div className={styles.megaBannerArea}>
-                <div className={styles.bannerCard}>
-                  <div className={styles.bannerThumb}>📱</div>
-                  <div className={styles.bannerInfo}>
-                    <strong className={styles.bannerTitle}>
-                      현대 제네시스 셀렉션 친구초대 이벤트
-                    </strong>
-                    <span className={styles.bannerDate}>
-                      2026.07.27 ~ 2026.12.10
-                    </span>
-                  </div>
-                </div>
-
-                <div className={styles.bannerCard}>
-                  <div className={styles.bannerThumb}>🧳</div>
-                  <div className={styles.bannerInfo}>
-                    <strong className={styles.bannerTitle}>
-                      더현대트래블 여행 할인쿠폰 증정 이벤트
-                    </strong>
-                    <span className={styles.bannerDate}>
-                      2026.06.05 ~ 2026.12.31
-                    </span>
-                  </div>
-                </div>
-
-                <div className={styles.bannerCard}>
-                  <div className={styles.bannerThumb}>🏎️</div>
-                  <div className={styles.bannerInfo}>
-                    <strong className={styles.bannerTitle}>
-                      N 택시 인제스피디움 차량 구매 혜택
-                    </strong>
-                    <span className={styles.bannerDate}>
-                      2026.05.06 ~ 2026.12.30
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <MegaDropdown
+            activeMenu={activeMenu}
+            setActiveMenu={setActiveMenu}
+            megaMenus={MEGA_MENUS}
+          />
         )}
       </header>
 
-      {/* 메뉴 및 검색창 활성화 시 뒷배경 어둡게 차단하는 오버레이 */}
+      {/* 메뉴 및 검색창 활성화 시 뒷배경 어둡게 차단하는 오버레이[cite: 1] */}
       {(activeMenu || isSearchOpen) && (
         <div className={styles.backdrop} onClick={handleCloseAll} />
       )}
