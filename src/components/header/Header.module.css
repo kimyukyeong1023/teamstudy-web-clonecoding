@@ -66,7 +66,7 @@
 .headerInner {
   width: 100%;
   height: 100%;
-  padding: 0 11vw;
+  padding: 0 13.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,7 +77,7 @@
 .leftBox {
   display: flex;
   align-items: center;
-  gap: 7vw;
+  gap: 8.4rem;
   height: 100%;
 }
 
@@ -132,7 +132,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 2.4vw;
+  gap: 2.88rem;
   list-style: none;
   margin-left: 20px;
   padding: 0;
@@ -185,7 +185,7 @@
 .utillArea {
   display: flex;
   align-items: center;
-  gap: 1.2vw;
+  gap: 1.44rem;
   margin-right: 50px;
 }
 
@@ -346,17 +346,17 @@
   background-color: #f6f3f2;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
   z-index: 999;
-  padding: 0 11vw 24px;
+  padding: 0 13.2rem 24px;
   box-sizing: border-box;
 }
 
-/* 드롭다운/검색창 열렸을 때 화면 어둡게 처리하는 딤 배경 오버레이 */
+/* 드롭다운/검색창 열렸을 때 화면 어둡게 처리하는 딤 배경 오버레이 (100vh -> 108rem 변환) */
 .backdrop {
   position: fixed;
   top: 80px;
   left: 0;
-  width: 100vw;
-  height: calc(100vh - 80px);
+  width: 100%;
+  height: calc(108rem - 80px);
   background-color: rgba(0, 0, 0, 0.55);
   z-index: 998;
 }
@@ -365,7 +365,7 @@
 .megaCloseBtn {
   position: absolute;
   top: 18px;
-  right: 11vw;
+  right: 13.2rem;
   background: none;
   border: none;
   font-size: 20px;
@@ -455,10 +455,10 @@
   display: flex;
   gap: 16px;
   border-top: 1px solid #e0dad3;
-  margin-left: -11vw;
-  margin-right: -11vw;
-  padding-left: 11vw;
-  padding-right: 11vw;
+  margin-left: -13.2rem;
+  margin-right: -13.2rem;
+  padding-left: 13.2rem;
+  padding-right: 13.2rem;
   padding-top: 36px;
   padding-bottom: 36px;
 }
@@ -534,7 +534,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 11vw;
+  padding: 20px 13.2rem;
   border-bottom: 1px solid #e0dad3;
 }
 
@@ -595,7 +595,7 @@
 /* 검색 레이어 우측 상단 닫기(X) 버튼 */
 .searchCloseBtn {
   position: absolute;
-  right: 11vw;
+  right: 13.2rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -725,54 +725,50 @@
    6. 반응형 미디어 쿼리 (Media Queries)
    ========================================================= */
 
-@media (max-width: 1300px) {
+/* 1. 노트북 및 소형 모니터 (max-width: 1440px) */
+@media (max-width: 1440px) {
 
-  /* 태블릿/노트북 해상도 헤더 전체 좌우 여백 축소 */
   .headerInner {
-    padding: 0 2vw;
+    padding: 0 2.4rem;
   }
 
-  /* 로고 외부 마진 제거 */
   .logoHeading {
     margin-left: 0;
     margin-right: 0;
   }
 
-  /* 좌측 로고와 네비게이션 간격 조절 */
   .leftBox {
-    gap: 6vw;
+    gap: 7.2rem;
   }
 
-  /* 네비게이션 간격 조절 */
   .navList {
     margin-left: 0;
-    gap: 1.2vw;
+    gap: 1.44rem;
   }
 
-  /* 우측 유틸리티 영역 여백 조절 */
   .utillArea {
     margin-right: 0;
-    gap: 1.5vw;
+    gap: 1.8rem;
   }
 
-  /* 반응형 대형 드롭다운 스크롤 및 고정 규격 */
+  /* 반응형 대형 드롭다운 스크롤 (100vh -> 108rem 변환) */
   .megaDropdown {
-    padding: 20px 3vw 30px;
-    max-height: calc(100vh - 80px);
+    padding: 20px 3.6rem 30px;
+    max-height: calc(108rem - 80px);
     overflow-y: auto;
   }
 
   .megaCloseBtn {
     top: 16px;
-    right: 2vw;
+    right: 2.4rem;
     font-size: 20px;
   }
 
   .megaBannerArea {
-    margin-left: -3vw;
-    margin-right: -3vw;
-    padding-left: 3vw;
-    padding-right: 3vw;
+    margin-left: -3.6rem;
+    margin-right: -3.6rem;
+    padding-left: 3.6rem;
+    padding-right: 3.6rem;
   }
 
   .megaRow {
@@ -800,14 +796,13 @@
   }
 }
 
-@media (max-width: 1100px) {
+/* 2. 태블릿 (max-width: 1023px) */
+@media (max-width: 1023px) {
 
-  /* 소형 태블릿 모바일 해상도 헤더 높이 축소 */
   .header {
     height: 65px;
   }
 
-  /* 텍스트 로고 숨김 처리 (아이콘만 유지) */
   .logoText {
     display: none;
   }
@@ -821,16 +816,16 @@
   }
 
   .leftBox {
-    gap: 140px;
+    gap: 80px;
   }
 
   .navList {
     margin-left: 0;
-    gap: 20px;
+    gap: 16px;
   }
 
   .utillArea {
-    margin-left: 35px;
+    margin-left: 20px;
     gap: 12px;
   }
 
@@ -838,13 +833,14 @@
   .navBtn,
   .evLink,
   .langBtn {
-    font-size: 12px;
+    font-size: 13px;
   }
 
+  /* 100vh -> 108rem 변환 */
   .megaDropdown {
     top: 65px;
     padding: 16px 20px;
-    max-height: calc(100vh - 65px);
+    max-height: calc(108rem - 65px);
     overflow-y: auto;
   }
 
@@ -890,5 +886,97 @@
 
   .bannerTitle {
     font-size: 11px;
+  }
+
+  .searchBarContainer {
+    padding: 16px 20px;
+  }
+
+  .searchCloseBtn {
+    right: 20px;
+  }
+}
+
+/* 3. 모바일 (max-width: 767px) */
+@media (max-width: 767px) {
+
+  .header {
+    height: 60px;
+  }
+
+  .headerInner {
+    padding: 0 16px;
+  }
+
+  .leftBox {
+    gap: 20px;
+  }
+
+  .navList {
+    gap: 12px;
+  }
+
+  .utillArea {
+    margin-left: 0;
+    gap: 8px;
+  }
+
+  .evLink {
+    display: none;
+  }
+
+  .navLink,
+  .navBtn,
+  .langBtn {
+    font-size: 12px;
+  }
+
+  /* 100vh -> 108rem 변환 */
+  .megaDropdown {
+    top: 60px;
+    padding: 12px 16px 20px;
+    max-height: calc(108rem - 60px);
+  }
+
+  .megaRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .megaGrid::before {
+    display: none;
+  }
+
+  .categoryTitle {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .categoryItems {
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .megaBannerArea {
+    flex-direction: column;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .searchInputBox,
+  .searchContentBox {
+    width: 100%;
+  }
+
+  .searchContentBox {
+    flex-direction: column;
+  }
+
+  .recentSearchSection {
+    border-right: none;
+    border-bottom: 1px solid #eeeeee;
   }
 }
