@@ -42,3 +42,291 @@ AI로 가져온 공통 컬러입니다.
 기본 레이아웃 최대 너비 (메인 배너 제외한 콘텐츠 영역 통일용) 
 --max-width: 1200px;
 */
+
+/* feature/header */
+/* ---------------------------------------------------------
+   [1] 데스크톱 / 소형 모니터 (max-width: 1440px)
+   --------------------------------------------------------- */
+@media (max-width: 1440px) {
+
+  /* 헤더 좌우 패딩 줄임 */
+  .headerInner {
+    padding: 0 2.4rem;
+  }
+
+  /* 로고 위치 및 고정 넓이 보장 */
+  .logoHeading {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .logoArea {
+    flex-shrink: 0;
+  }
+
+  /* 로고와 메인 메뉴를 함께 묶는 LeftBox 축소 대응 */
+  .leftBox {
+    gap: 0;
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+
+  /* 메인 네비게이션 - 좌측 여백을 일정하게 조절하여 로고 바로 옆으로 배치 */
+  .mainNav {
+    flex-shrink: 1;
+    min-width: 0;
+    margin-left: 6rem;
+  }
+
+  /* 메뉴 항목 리스트 간격 및 유동적 가변 설정 */
+  .navList {
+    margin-left: 0;
+    gap: clamp(0.5rem, 1.2rem, 1.5rem);
+    flex-shrink: 1;
+  }
+
+  .navLink,
+  .navBtn {
+    font-size: clamp(0.8125rem, 0.875rem, 0.9375rem);
+  }
+
+  /* 우측 유틸리티 영역 축소 방지 및 여백 고정 */
+  .utillArea {
+    margin-right: 0;
+    margin-left: 1.5rem;
+    gap: clamp(0.8rem, 1.1rem, 1.4rem);
+    flex-shrink: 0;
+  }
+
+  /* 메가 메뉴 패널 스크롤 처리 및 여백 조정 */
+  .megaDropdown {
+    padding: 20px 3.6rem 30px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+
+  .megaCloseBtn {
+    top: 16px;
+    right: 2.4rem;
+    font-size: 20px;
+  }
+
+  .megaBannerArea {
+    margin-left: -3.6rem;
+    margin-right: -3.6rem;
+    padding-left: 3.6rem;
+    padding-right: 3.6rem;
+  }
+
+  .megaRow {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .categoryTitle {
+    width: 170px;
+    font-size: 15px;
+    padding-top: 2px;
+  }
+
+  .megaGrid::before {
+    left: 170px;
+  }
+
+  .categoryItems {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding-left: 40px;
+    gap: 12px 12px;
+    align-items: start;
+  }
+}
+
+/* ---------------------------------------------------------
+   [2] 태블릿 (max-width: 1023px)
+   --------------------------------------------------------- */
+@media (max-width: 1023px) {
+
+  .header {
+    height: 65px;
+  }
+
+  .logoText {
+    display: none;
+  }
+
+  .logoHeading {
+    margin-left: 0;
+  }
+
+  .headerInner {
+    padding: 0 20px;
+  }
+
+  .leftBox {
+    gap: 80px;
+  }
+
+  .navList {
+    margin-left: 0;
+    gap: 16px;
+  }
+
+  .utillArea {
+    margin-left: 20px;
+    gap: 12px;
+  }
+
+  .navLink,
+  .navBtn,
+  .evLink,
+  .langBtn {
+    font-size: 13px;
+  }
+
+  .megaDropdown {
+    top: 65px;
+    padding: 16px 20px;
+    max-height: calc(100vh - 65px);
+    overflow-y: auto;
+  }
+
+  .megaCloseBtn {
+    right: 20px;
+    top: 14px;
+  }
+
+  .megaGrid {
+    padding: 10px 0;
+  }
+
+  .megaBannerArea {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 14px;
+    gap: 10px;
+  }
+
+  .categoryTitle {
+    width: 140px;
+    font-size: 13px;
+  }
+
+  .megaGrid::before {
+    left: 140px;
+  }
+
+  .categoryItems {
+    padding-left: 14px;
+    gap: 10px 10px;
+  }
+
+  .megaLink {
+    font-size: 12px;
+  }
+
+  .bannerCard {
+    padding: 8px 12px;
+  }
+
+  .bannerTitle {
+    font-size: 11px;
+  }
+
+  .searchBarContainer {
+    padding: 16px 20px;
+  }
+
+  .searchCloseBtn {
+    right: 20px;
+  }
+}
+
+/* ---------------------------------------------------------
+   [3] 모바일 (max-width: 767px)
+   --------------------------------------------------------- */
+@media (max-width: 767px) {
+
+  .header {
+    height: 60px;
+  }
+
+  .headerInner {
+    padding: 0 16px;
+  }
+
+  .leftBox {
+    gap: 20px;
+  }
+
+  .navList {
+    gap: 12px;
+  }
+
+  .utillArea {
+    margin-left: 0;
+    gap: 8px;
+  }
+
+  .evLink {
+    display: none;
+  }
+
+  .navLink,
+  .navBtn,
+  .langBtn {
+    font-size: 12px;
+  }
+
+  .megaDropdown {
+    top: 60px;
+    padding: 12px 16px 20px;
+    max-height: calc(100vh - 60px);
+  }
+
+  .megaRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .megaGrid::before {
+    display: none;
+  }
+
+  .categoryTitle {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .categoryItems {
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .megaBannerArea {
+    flex-direction: column;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .searchInputBox,
+  .searchContentBox {
+    width: 100%;
+  }
+
+  .searchContentBox {
+    flex-direction: column;
+  }
+
+  .recentSearchSection {
+    border-right: none;
+    border-bottom: 1px solid #eeeeee;
+  }
+}
