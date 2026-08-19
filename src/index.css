@@ -7,7 +7,7 @@ html {
     font-size: 16px;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1446px) {
     html {
         font-size: 15px;
     }
