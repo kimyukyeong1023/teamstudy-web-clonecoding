@@ -1,6 +1,8 @@
+html {
+    font-size: 16px;
+}
 *{
     box-sizing: border-box;
-    font-size: 16px;
 
 }
 
@@ -14,6 +16,37 @@ list-style: none;
 }
 .BGImg {
     background-image: url("/전체이미지.webp");
+}
+
+/* 작은 데스크탑 / 노트북 */
+@media (max-width: 1200px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+
+/* 태블릿 가로 / 작은 노트북 */
+@media (max-width: 992px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+
+/* 태블릿 / 모바일 가로 */
+@media (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+}
+
+
+/* 모바일 */
+@media (max-width: 576px) {
+    html {
+        font-size: 11px;
+    }
 }
 /*
 AI로 가져온 공통 컬러입니다.

@@ -1,11 +1,10 @@
 .mainWrap {
   width: 100%;
-  height: 47.5em;
+  height: 47.5rem;
 
-  padding: 5em 0 1.875em 0;
+  padding: 5rem 0 1.875rem 0;
 
-  /* 화면이 1000px 아래로 줄어들지 않게 하는 기준 */
-  min-width: 1000px;
+  /* 반응형 적용을 위해 기존 min-width: 1000px 제거 */
 }
 
 .titleWrap {
@@ -13,14 +12,13 @@
 }
 
 .titleBox {
-  height: 8.125em;
+  height: 8.125rem;
 
-  padding: 0 21.875em;
+  padding: 0 21.875rem;
 
   /* 처음에는 오른쪽 바깥 */
   transform: translateX(120%);
 
-  /* transform이 바뀔 때 1초 동안 움직임 */
   transition: transform 1s ease;
 }
 
@@ -40,24 +38,28 @@
 }
 
 .textLinkGroup > h3 {
-  /* h3 자신의 font-size가 기준이 되므로 기존 비율에 맞춤 */
-  height: 1.62em;
-  font-size: 3.125em;
+  /* 기존 50px */
+  font-size: 3.125rem;
+
+  /* 기존 약 81px */
+  height: 5.0625rem;
 }
 
 .textLinkGroup > p {
-  /* p 자신의 font-size가 기준이 되므로 기존 비율에 맞춤 */
-  height: 2.36em;
-  font-size: 1.5625em;
+  /* 기존 25px */
+  font-size: 1.5625rem;
+
+  /* 기존 약 59px */
+  height: 3.6875rem;
 }
 
 .bannerWrap {
   display: flex;
   justify-content: center;
 
-  height: 23.75em;
+  height: 23.75rem;
 
-  margin: 3.125em;
+  margin: 3.125rem;
 
   position: relative;
   overflow: hidden;
@@ -65,7 +67,7 @@
 
 .bannerImg {
   max-width: 90%;
-  height: 23.75em;
+  height: 23.75rem;
 
   margin: 0 auto;
 
@@ -102,8 +104,8 @@
 }
 
 .bannerMoveBtn {
-  width: 3.125em;
-  height: 3.125em;
+  width: 3.125rem;
+  height: 3.125rem;
 
   background-color: transparent;
   border: none;
@@ -114,7 +116,6 @@
   pointer-events: auto;
 }
 
-/* --------------------------------------------------------------- */
 /* 이전 화살표 */
 .bannerBBtn::before {
   content: "";
@@ -124,15 +125,15 @@
   left: 50%;
   translate: -50% -50%;
 
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 
   border-top: 1px solid #000;
   border-left: 1px solid #000;
 
   transform: rotate(-45deg);
 
-  border-top-left-radius: 2px;
+  border-top-left-radius: 0.125rem;
 }
 
 /* 다음 화살표 */
@@ -144,19 +145,19 @@
   left: 50%;
   translate: -50% -50%;
 
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 
   border-top: 1px solid #000;
   border-left: 1px solid #000;
 
   transform: rotate(-225deg);
 
-  border-top-left-radius: 2px;
+  border-top-left-radius: 0.125rem;
 }
-/* -------------------------------------------------------------------- */
+
 .BannerBNName {
-  font-size: 1.25em;
+  font-size: 1.25rem;
 }
 
 .listbar {
@@ -164,9 +165,9 @@
   justify-content: center;
   align-items: center;
 
-  gap: 0.625em;
+  gap: 0.625rem;
 
-  height: 1.875em;
+  height: 1.875rem;
 }
 
 .listBnt {
@@ -184,14 +185,10 @@
   justify-content: center;
   align-items: center;
 
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-/*
-  button은 브라우저 기본 font-size 영향을 받을 수 있어서
-  여기서는 rem을 유지하는 편이 안전함
-*/
 .listBnt li button {
   width: 0.75rem;
   height: 0.75rem;
@@ -202,13 +199,12 @@
   border: none;
   cursor: pointer;
 }
-/* ---------------------------------------------------------------------- */
+
 .playBtn {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* button 자체 font-size 영향을 받을 수 있으므로 rem 유지 */
   width: 1rem;
   height: 1rem;
 
@@ -234,7 +230,7 @@
 
   border-style: solid;
 
-  /* 아이콘을 직접 그리는 미세한 값이므로 px 유지 */
+  /* 작은 아이콘 그림이므로 px 유지 */
   border-width: 4px 0 4px 6px;
   border-color: transparent transparent transparent #fff;
 
@@ -252,17 +248,4 @@
   box-shadow: 4px 0 0 #fff;
 
   transform: translateX(-2px);
-}
-/* ------------------------------------------------------------ */
-
-@media (max-width: 1300px) {
-  .mainWrap {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 1100px) {
-  .mainWrap {
-    font-size: 13px;
-  }
 }
