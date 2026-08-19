@@ -1,3 +1,6 @@
+html {
+    font-size: 16px;
+}
 *{
     box-sizing: border-box;
 
@@ -7,7 +10,7 @@ html {
     font-size: 16px;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1444px) {
     html {
         font-size: 15px;
     }
@@ -36,6 +39,9 @@ list-style: none;
 .BGImg {
     background-image: url("/전체이미지.webp");
 }
+
+
+
 /*
 AI로 가져온 공통 컬러입니다.
 사용시 색상 확인 후 적합하다고 판단되시면 사용하시면 됩니다.
