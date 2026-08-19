@@ -113,7 +113,7 @@ export default function MainBanner() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Link key={imgIdx} to={`/cars/${curBanner.id}`}>
+        <Link  key={imgIdx} to={`/cars/${curBanner.id}`}>
           {/*show의 상태로 애니메이션을 발생시키는 클래스를 결정  */}
           <img
             className={`${styles.bannerImg} ${show ? styles.show : ""}`}

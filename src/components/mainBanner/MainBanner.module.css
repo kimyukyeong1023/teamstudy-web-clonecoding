@@ -63,16 +63,18 @@
 
   position: relative;
   overflow: hidden;
+
 }
 
 .bannerImg {
+  display: block;
+
   max-width: 90%;
   height: 23.75rem;
 
   margin: 0 auto;
 
   transform: translateX(120%);
-
   transition: transform 2s ease;
 
   cursor: pointer;
