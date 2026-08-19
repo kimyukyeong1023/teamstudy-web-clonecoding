@@ -10,7 +10,7 @@ html {
     font-size: 16px;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1444px) {
     html {
         font-size: 15px;
     }
@@ -40,36 +40,8 @@ list-style: none;
     background-image: url("/전체이미지.webp");
 }
 
-/* 작은 데스크탑 / 노트북 */
-@media (max-width: 1200px) {
-    html {
-        font-size: 15px;
-    }
-}
 
 
-/* 태블릿 가로 / 작은 노트북 */
-@media (max-width: 992px) {
-    html {
-        font-size: 14px;
-    }
-}
-
-
-/* 태블릿 / 모바일 가로 */
-@media (max-width: 768px) {
-    html {
-        font-size: 12px;
-    }
-}
-
-
-/* 모바일 */
-@media (max-width: 576px) {
-    html {
-        font-size: 11px;
-    }
-}
 /*
 AI로 가져온 공통 컬러입니다.
 사용시 색상 확인 후 적합하다고 판단되시면 사용하시면 됩니다.
