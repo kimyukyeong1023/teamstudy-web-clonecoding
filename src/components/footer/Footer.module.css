@@ -184,37 +184,3 @@
   opacity: 0.25;
   cursor: default;
 }
-
-@media (max-width: 47.5rem) {
-  .quickMenu {
-    padding: 1rem 0.625rem;
-  }
-
-  .menuRow {
-    gap: 0;
-  }
-
-  .list {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .list::-webkit-scrollbar {
-    display: none;
-  }
-
-  .item {
-    flex: 0 0 5.5rem;
-    scroll-snap-align: start;
-  }
-
-  .arrow {
-    display: none;
-  }
-
-  .scrollbar {
-    display: none;
-  }
-}
